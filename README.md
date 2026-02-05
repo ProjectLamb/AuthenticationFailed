@@ -1,7 +1,7 @@
-# ProjectLamb_NoSignal
-3rd Project of ProjectLamb
+# 4thProject(임시)
+4th Project of ProjectLamb
 
-> NoSignal 프로젝트 생성
+> 프로젝트 생성
 
 #### 목차
 1. [Git Setting](#1-git-setting)
@@ -15,14 +15,14 @@
 
 **① Clone 하기**
 ```bash
-git clone https://github.com/ProjectLamb/No-Signal.git
+git clone https://github.com/ProjectLamb/4thProject.git
 git fetch
 ```
 
 **② 유니티 프로젝트 만들기**
 <div align=center>
-    <img src="img/make_project.png">
-    <p>1. 3D(URP) 선택 <br>2. "ProjectLamb_NoSignal" 으로 생성(가안)</p>
+    <img src="img/create_project.png">
+    <p>1. 3D(URP) 선택 <br>2. "4thProject" 으로 생성(프로젝트의 이름과 컨셉이 정해지지 않았으므로 임시적으로 정한 이름)</p>
 </div>
 
 **③ 유니티 프로젝트에 clone한 내용을 그대로 덮어씌운다다**

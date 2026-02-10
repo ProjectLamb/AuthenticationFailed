@@ -25,7 +25,12 @@ git fetch
     <p>1. 3D(URP) 선택 <br>2. "4thProject" 으로 생성(프로젝트의 이름과 컨셉이 정해지지 않았으므로 임시적으로 정한 이름)</p>
 </div>
 
-**③ 유니티 프로젝트에 clone한 내용을 그대로 덮어씌운다다**
+**③ 유니티 프로젝트에 clone한 내용을 그대로 덮어씌운다**
+
+<div align=center>
+    <img src="img/set_project.png">
+    <p>1. clone을 하면 유니티 파일 안에 프로젝트 이름과 똑같은 폴더가 안에 하나 더 생길텐데(예 : 4thProject/4thProject) <br>2. 똑같은 이름의 이 폴더 안의 파일들을 밖으로 빼내어 이런 형태로 만들자</p>
+</div>
 
 ---
 
@@ -177,7 +182,7 @@ OS에 맞는 설정을 구글에 꼭 찾아보길!
 2. develop : 브랜치를 파서, 협업하는것을 합치는 "대리자 브랜치"로 사용
 3. feature/guild : 이것으로 우리 각자의 브랜치를 파는것을 하자
 
-> 관련 자료 
+> 관련 자료(코딩, 커밋 룰 포함)
 
 [그라운드 룰](https://www.notion.so/projectlamb/7b1c105044314431b46f77961ff3bf8d)
 

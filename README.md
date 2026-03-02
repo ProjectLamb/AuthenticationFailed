@@ -15,7 +15,7 @@
 
 **① Clone 하기**
 ```bash
-git clone https://github.com/ProjectLamb/4thProject.git
+git clone https://github.com/ProjectLamb/AuthenticationFailed.git
 git fetch
 ```
 

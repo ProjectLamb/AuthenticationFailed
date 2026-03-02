@@ -1,4 +1,4 @@
-# 4thProject(임시)
+# Authentication Failed
 4th Project of ProjectLamb
 
 > 프로젝트 생성
@@ -22,14 +22,14 @@ git fetch
 **② 유니티 프로젝트 만들기**
 <div align=center>
     <img src="img/create_project.png">
-    <p>1. 3D(URP) 선택 <br>2. "4thProject" 으로 생성(프로젝트의 이름과 컨셉이 정해지지 않았으므로 임시적으로 정한 이름)</p>
+    <p>1. 3D(URP) 선택 <br>2. "AuthenticationFailed" 으로 생성</p>
 </div>
 
 **③ 유니티 프로젝트에 clone한 내용을 그대로 덮어씌운다**
 
 <div align=center>
     <img src="img/set_project.png">
-    <p>1. clone을 하면 유니티 파일 안에 프로젝트 이름과 똑같은 폴더가 안에 하나 더 생길텐데(예 : 4thProject/4thProject) <br>2. 똑같은 이름의 이 폴더 안의 파일들을 밖으로 빼내어 이런 형태로 만들자</p>
+    <p>1. clone을 하면 유니티 파일 안에 프로젝트 이름과 똑같은 폴더가 안에 하나 더 생길텐데(예 : AuthenticationFailed/AuthenticationFailed) <br>2. 똑같은 이름의 이 폴더 안의 파일들을 밖으로 빼내어 이런 형태로 만들자</p>
 </div>
 
 ---

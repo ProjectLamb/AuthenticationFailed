@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public void MiniGame()
     {
         int ran = Random.Range(0,miniGames.Length);
-        Vector3 spawnPos = new Vector3(-49.4420013f, 18.2560005f, 0f);
+        Vector3 spawnPos = new Vector3(-8.84240913f,3.17331696f,111.747986f);
 
         // 생성 (프리팹, 위치, 회전값)
         // Quaternion.identity는 '회전 없음'을 의미합니다.

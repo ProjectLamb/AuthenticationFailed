@@ -16,8 +16,19 @@ public class ImaginationPanicPlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // 물리 충돌로 넘어짐 방지
-        mainCamera = Camera.main; // 1P 뷰를 비추는 카메라
+        rb.freezeRotation = true;
+
+        // 수정된 부분: 무조건 Camera.main을 믿지 않고, "1P_Camera"라는 이름을 가진 카메라를 직접 찾습니다.
+        GameObject camObj = GameObject.Find("1P_Camera");
+        if (camObj != null)
+        {
+            mainCamera = camObj.GetComponent<Camera>();
+        }
+        else
+        {
+            mainCamera = Camera.main; // 최후의 보루
+            Debug.LogWarning("1P_Camera를 찾지 못해 기본 카메라를 사용합니다.");
+        }
     }
 
     void Update()

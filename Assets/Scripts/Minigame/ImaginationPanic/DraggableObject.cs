@@ -10,44 +10,42 @@ public class DraggableObject : MonoBehaviour
     private Vector3 offset; // 클릭한 위치와 오브젝트 중심의 오차
     private Plane dragPlane; // 높이를 고정할 가상의 바닥 평면
 
+    private Camera activeCamera;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        // 1P_Camera를 직접 찾아서 연결
+        GameObject camObj = GameObject.Find("1P_Camera");
+        activeCamera = (camObj != null) ? camObj.GetComponent<Camera>() : Camera.main;
     }
 
     void OnMouseDown()
     {
-        // 1. 클릭하는 순간의 Y축 높이를 기억합니다.
         fixedY = transform.position.y;
-
-        // 2. 그 높이를 기준으로 무한히 넓은 가상의 바닥(Plane)을 하나 만듭니다.
         dragPlane = new Plane(Vector3.up, new Vector3(0, fixedY, 0));
 
-        // 3. 카메라에서 마우스 클릭 위치로 레이저(Ray)를 쏩니다.
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Camera.main 대신 activeCamera 사용
+        Ray ray = activeCamera.ScreenPointToRay(Input.mousePosition);
 
-        // 레이저가 가상의 바닥(dragPlane)에 닿았다면
         if (dragPlane.Raycast(ray, out float distance))
         {
-            // 닿은 지점의 3D 좌표를 구하고, 오브젝트 중심과의 오차(Offset)를 계산합니다.
             Vector3 hitPoint = ray.GetPoint(distance);
             offset = transform.position - hitPoint;
         }
 
-        // 드래그하는 동안 중력 때문에 떨어지지 않도록 고정
         if (rb != null) rb.isKinematic = true;
     }
 
     void OnMouseDrag()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Camera.main 대신 activeCamera 사용
+        Ray ray = activeCamera.ScreenPointToRay(Input.mousePosition);
 
         if (dragPlane.Raycast(ray, out float distance))
         {
-            // 마우스가 이동한 위치의 바닥 좌표를 구합니다.
             Vector3 hitPoint = ray.GetPoint(distance);
-
-            // 오차를 더해서 새 위치를 잡고, Y축은 한 번 더 확실하게 고정합니다.
             Vector3 newPosition = hitPoint + offset;
             newPosition.y = fixedY;
 

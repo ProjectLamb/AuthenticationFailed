@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - RedLine
+  - WH_Virus
+  - WH_Vaccine
+  - JW_PIPE
   layers:
   - Default
   - TransparentFX

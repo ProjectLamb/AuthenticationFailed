@@ -47,6 +47,16 @@ MonoBehaviour:
   - RpcForceNextTurn
   - RpcSyncForceNext
   - RpcResetGame
+  - RPC_HandleCollision
+  - RPC_MasterSpawnRequest
+  - RPC_SyncSpawn
+  - RpcSyncTimer
+  - RpcLauncherClick
+  - RpcRegClick
+  - RpcGameOver
+  - RpcSetupPipe
+  - MovePipe
+  - ControlPipe
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

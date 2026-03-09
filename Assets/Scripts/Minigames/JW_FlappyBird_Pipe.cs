@@ -5,37 +5,52 @@ using Photon.Pun; // 포톤 기능 사용
 public class JW_FlappyBird_Pipe : MonoBehaviourPun
 {
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        this.gameObject.transform.localPosition += new Vector3(-0.03f*Time.deltaTime,0,0);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // 좌측 이동
+            this.transform.localPosition += new Vector3(-0.03f * Time.deltaTime, 0, 0);
+
+            if (this.transform.localPosition.x < -0.0762f)
+            {
+                PhotonNetwork.Destroy(this.gameObject);
+            }
+        }
+
+        // Actor2가 입력 보내기
         if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            ControlPipe();
+            SendInput();
         }
-        if(this.gameObject.transform.localPosition.x < -0.0762f)
+    }
+
+    void SendInput()
+    {
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            Destroy(this.gameObject);
+            photonView.RPC("MovePipe", RpcTarget.MasterClient, 1);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            photonView.RPC("MovePipe", RpcTarget.MasterClient, -1);
         }
     }
 
     [PunRPC]
-    void ControlPipe()
+    void MovePipe(int dir)
     {
-        if(Input.GetKey(KeyCode.DownArrow))
-        {
-            if(this.gameObject.transform.localPosition.y > 8f)
-            {
-                this.gameObject.transform.localPosition += new Vector3(0,-15f*Time.deltaTime,0);
-            }
-        }
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        else if(Input.GetKey(KeyCode.UpArrow))
+        float moveY = 15f * Time.deltaTime * dir;
+
+        if (dir > 0 && transform.localPosition.y < 44f)
         {
-            if(this.gameObject.transform.localPosition.y < 44f)
-            {
-                this.gameObject.transform.localPosition += new Vector3(0,15f*Time.deltaTime,0);
-            }
+            transform.localPosition += new Vector3(0, moveY, 0);
+        }
+        else if (dir < 0 && transform.localPosition.y > 8f)
+        {
+            transform.localPosition += new Vector3(0, moveY, 0);
         }
     }
 }

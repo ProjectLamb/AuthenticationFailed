@@ -34,11 +34,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-
-    }
-
     public void MiniGame()
     {
         miniGameManager.StartRandomMiniGame();

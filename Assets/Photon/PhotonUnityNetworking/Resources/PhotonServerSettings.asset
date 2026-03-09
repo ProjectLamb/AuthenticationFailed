@@ -42,6 +42,13 @@ MonoBehaviour:
   - RpcSpawnMiniGame
   - RpcReportActionToServer
   - RpcSyncDisplay
+  - RpcSyncTimer
+  - RpcLauncherClick
+  - RpcRegClick
+  - RpcGameOver
+  - RpcSetupPipe
+  - MovePipe
+  - ControlPipe
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

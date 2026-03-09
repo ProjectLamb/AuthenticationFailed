@@ -42,6 +42,9 @@ MonoBehaviour:
   - RpcSpawnMiniGame
   - RpcReportActionToServer
   - RpcSyncDisplay
+  - RPC_HandleCollision
+  - RPC_MasterSpawnRequest
+  - RPC_SyncSpawn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

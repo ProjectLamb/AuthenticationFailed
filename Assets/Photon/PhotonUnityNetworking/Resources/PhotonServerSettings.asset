@@ -52,6 +52,11 @@ MonoBehaviour:
   - RpcSetupPipe
   - MovePipe
   - ControlPipe
+  - RPC_TriggerClear
+  - RPC_TriggerVirus
+  - RPC_TriggerClearUI
+  - RPC_TriggerVirusUI
+  - RPC_SyncScore
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

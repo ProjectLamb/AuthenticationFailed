@@ -7,6 +7,8 @@ TagManager:
   - WH_Virus
   - WH_Vaccine
   - JW_PIPE
+  - WH_Ground
+  - WH_Obstacle
   layers:
   - Default
   - TransparentFX

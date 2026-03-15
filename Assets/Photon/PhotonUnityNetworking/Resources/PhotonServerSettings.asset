@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: f4ae00f5-d58a-4c3e-88ba-2e3fba238197
+    AppIdRealtime: 
     AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: f29e3805-0cc9-46be-8cf5-b8d60f396bd0
+    AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -54,6 +54,16 @@ MonoBehaviour:
   - RpcSetupPipe
   - MovePipe
   - ControlPipe
+  - RPC_TriggerClear
+  - RPC_TriggerVirus
+  - RPC_TriggerClearUI
+  - RPC_TriggerVirusUI
+  - RPC_SyncScore
+  - RPC_EndGame_Dino
+  - RPC_HandleGoal_Dino
+  - RPC_HandleStop_Dino
+  - RPC_HandleStopCount
+  - RPC_SyncEndGame
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0

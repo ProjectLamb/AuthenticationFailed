@@ -39,6 +39,29 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - HeresWhy
+  - RpcSpawnMiniGame
+  - RpcReportActionToServer
+  - RpcSyncDisplay
+  - RPC_HandleCollision
+  - RPC_MasterSpawnRequest
+  - RPC_SyncSpawn
+  - RpcSyncTimer
+  - RpcLauncherClick
+  - RpcRegClick
+  - RpcGameOver
+  - RpcSetupPipe
+  - MovePipe
+  - ControlPipe
+  - RPC_TriggerClear
+  - RPC_TriggerVirus
+  - RPC_TriggerClearUI
+  - RPC_TriggerVirusUI
+  - RPC_SyncScore
+  - RPC_EndGame_Dino
+  - RPC_HandleGoal_Dino
+  - RPC_HandleStop_Dino
+  - RPC_HandleStopCount
+  - RPC_SyncEndGame
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0

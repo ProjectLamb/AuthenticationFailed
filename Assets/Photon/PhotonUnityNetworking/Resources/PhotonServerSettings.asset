@@ -57,6 +57,16 @@ MonoBehaviour:
   - RpcSetupPipe
   - MovePipe
   - ControlPipe
+  - RpcAddCombo
+  - RpcEndGame
+  - RpcResetCombo
+  - RpcSyncBall
+  - RpcSyncCombo
+  - SyncPaddlePosition
+  - RpcRespawnEnd
+  - RpcRespawnStart
+  - RpcStopBall
+  - RpcSyncPaddle
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

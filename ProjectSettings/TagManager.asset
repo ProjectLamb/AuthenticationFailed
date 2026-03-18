@@ -9,6 +9,8 @@ TagManager:
   - WH_Vaccine
   - JW_PIPE
   - Wall
+  - WH_Ground
+  - WH_Obstacle
   layers:
   - Default
   - TransparentFX

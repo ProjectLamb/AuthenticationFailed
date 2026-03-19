@@ -4,9 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - RedLine
   - WH_Virus
   - WH_Vaccine
   - JW_PIPE
+  - Wall
   - WH_Ground
   - WH_Obstacle
   layers:

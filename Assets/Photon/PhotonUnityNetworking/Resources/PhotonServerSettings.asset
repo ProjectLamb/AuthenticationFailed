@@ -42,6 +42,11 @@ MonoBehaviour:
   - RpcSpawnMiniGame
   - RpcReportActionToServer
   - RpcSyncDisplay
+  - RpcResetBlocks
+  - RpcSyncTimer
+  - RpcForceNextTurn
+  - RpcSyncForceNext
+  - RpcResetGame
   - RpcApplyCustomProperties
   - RpcSpawnCustomObject
   - RPC_HandleCollision
@@ -54,6 +59,16 @@ MonoBehaviour:
   - RpcSetupPipe
   - MovePipe
   - ControlPipe
+  - RpcAddCombo
+  - RpcEndGame
+  - RpcResetCombo
+  - RpcSyncBall
+  - RpcSyncCombo
+  - SyncPaddlePosition
+  - RpcRespawnEnd
+  - RpcRespawnStart
+  - RpcStopBall
+  - RpcSyncPaddle
   - RPC_TriggerClear
   - RPC_TriggerVirus
   - RPC_TriggerClearUI

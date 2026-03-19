@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B6CBD692-12EC-CDBA-0932-48F63C40C91F}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+		</SoundBank>
+		<SoundBank Id="3157003241" Type="User" Language="SFX" Hash="{55AE91DF-F8BE-753A-6FC2-2E2BCCCEFC4F}">
+			<ShortName>Test</ShortName>
+			<Path>Test.bnk</Path>
+			<Media>
+				<File Id="8738664" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Main_Theme_sketch_Yoonho.wav</ShortName>
+					<CachePath>SFX/Main_Theme_sketch_Yoonho_FBC78EF0.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="3157003241" Name="test" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="576110585" Name="test2" DurationType="OneShot" DurationMin="55.05002" DurationMax="55.05002">
+					<MediaRefs>
+						<MediaRef Id="8738664"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{4F8C2C8E-0302-3BB9-8CC7-154EE9DAA145}</FileHash>
+</SoundBanksInfo>

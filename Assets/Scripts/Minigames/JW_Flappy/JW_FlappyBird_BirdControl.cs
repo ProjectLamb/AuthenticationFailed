@@ -27,7 +27,7 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
         // (만약 폰 사용자가 1번이 될 수도 있다면 기기 환경에 따른 체크가 더 정확합니다.)
         if (PhotonNetwork.LocalPlayer.ActorNumber != 1) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             Jump();
         }
@@ -66,7 +66,7 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
         failImg.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1;
-        flappyGame.SetActive(false);
+        Destroy(flappyGame.gameObject);
     }
 
 }

@@ -9,6 +9,7 @@ TagManager:
   - JW_PIPE
   - WH_Ground
   - WH_Obstacle
+  - JW_FLAPPY_MID
   layers:
   - Default
   - TransparentFX

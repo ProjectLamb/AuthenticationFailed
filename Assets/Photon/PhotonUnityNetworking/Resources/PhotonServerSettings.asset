@@ -47,6 +47,8 @@ MonoBehaviour:
   - RpcForceNextTurn
   - RpcSyncForceNext
   - RpcResetGame
+  - RpcApplyCustomProperties
+  - RpcSpawnCustomObject
   - RPC_HandleCollision
   - RPC_MasterSpawnRequest
   - RPC_SyncSpawn
@@ -77,6 +79,11 @@ MonoBehaviour:
   - RPC_HandleStop_Dino
   - RPC_HandleStopCount
   - RPC_SyncEndGame
+  - RpcCheckPasswordStep
+  - RpcSyncPassword
+  - RpcResetAllPads
+  - RpcUpdatePadVisual
+  - RpcBroadcastReset
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

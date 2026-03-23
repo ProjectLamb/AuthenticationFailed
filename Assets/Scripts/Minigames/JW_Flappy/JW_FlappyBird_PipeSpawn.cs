@@ -1,18 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun; // 포톤 기능 사용
 
 public class JW_FlappyBird_PipeSpawn : MonoBehaviourPun
 {
     // 프리팹을 직접 넣는 대신, Resources 폴더 안의 파일 이름을 적습니다.
-    public string pipePrefabName = "Prefabs/Pipes";
+    public string pipePrefabName = "Minigames/Pipes";
+
+    public Slider pipeSlider;
 
     private float nowTime;
     private float makeTime = 3f;
 
+    private static JW_FlappyBird_PipeSpawn instance = null;
+
+    [SerializeField]
+
+    public static JW_FlappyBird_PipeSpawn Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError("No JW_FlappyBird_PipeSpawn Instance");
+            }
+            return instance;
+        }
+    }
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     void Start()
     {
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 2) pipeSlider.gameObject.SetActive(true);
         nowTime = Time.time;
     }
 

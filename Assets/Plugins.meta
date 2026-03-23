@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/StreamingAssets/Audio/Windows/DecodedBanks.meta
+guid: 8e86bc344302dc243833a0473e0a7390
+========
 guid: 2a9644e3e2494854cbb8993ad789d6c4
+>>>>>>>> develop:Assets/Plugins.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

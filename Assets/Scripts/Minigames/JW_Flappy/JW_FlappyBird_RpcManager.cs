@@ -10,7 +10,7 @@ public class FolderHell_RpcManager : MonoBehaviourPun
     [Header("UI ����")]
     public TextMeshProUGUI timerText;
     private int limitTime = 30;
-    public Image successImg;
+    public GameObject successWindow;
     public GameObject flappyGame;
 
     void Start()
@@ -51,7 +51,7 @@ public class FolderHell_RpcManager : MonoBehaviourPun
     IEnumerator SuccessAlert()
     {
         Time.timeScale = 0;
-        successImg.gameObject.SetActive(true);
+        successWindow.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1;
         flappyGame.SetActive(false);

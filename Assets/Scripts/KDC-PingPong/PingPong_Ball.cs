@@ -55,7 +55,21 @@ public class PingPongBall : MonoBehaviourPun, IPunObservable
             float contactSide = (transform.position.x < other.transform.position.x) ? -1f : 1f;
             if (Mathf.Sign(direction.x) == Mathf.Sign(contactSide)) return;
 
-            direction.x = contactSide;
+            // 1. 공이 패들의 어느 위치에 맞았는지 비율을 계산합니다.
+            // (결과값 -> 패들 맨 위: 1, 정중앙: 0, 패들 맨 아래: -1)
+            float yOffset = transform.position.y - other.transform.position.y;
+            float hitFactor = yOffset / other.bounds.extents.y;
+
+            // 2. 약간의 난수(랜덤값)를 더해서 매번 똑같이 튕기는 걸 방지합니다.
+            float randomness = Random.Range(-0.15f, 0.15f);
+
+            // 3. X축 방향을 뒤집고, Y축 방향은 맞은 위치(+랜덤값)에 비례하게 꺾어줍니다.
+            // 곱하는 숫자(예: 1.5f)를 키우면 모서리에 맞았을 때 더 미친 듯이 예리하게 꺾입니다.
+            Vector2 newDirection = new Vector2(contactSide, (hitFactor + randomness) * 1.5f);
+
+            // 4. normalized를 해줘야 꺾이는 각도와 상관없이 공의 '스피드'가 일정하게 유지됩니다.
+            direction = newDirection.normalized;
+
             if (rpcManager != null) rpcManager.AddCombo();
         }
         else if (other.CompareTag("Wall"))
@@ -68,7 +82,11 @@ public class PingPongBall : MonoBehaviourPun, IPunObservable
             }
             else
             {
+                // 위아래 벽에 부딪힐 때도 약간의 불규칙성을 주려면 아래처럼 할 수 있습니다. (선택사항)
                 direction.y *= -1f;
+                // 벽에 튕길 때도 약간 각도를 틀고 싶다면 아래 주석을 푸세요!
+                // direction.x += Random.Range(-0.1f, 0.1f); 
+                // direction = direction.normalized;
             }
         }
     }
@@ -77,18 +95,19 @@ public class PingPongBall : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // 마스터: 위치와 '방향(direction)'을 같이 보냅니다.
+            // 마스터: 위치, 방향에 이어 '현재 속도(speed)'까지 묶어서 보냅니다.
             stream.SendNext(transform.localPosition);
             stream.SendNext(direction);
+            
         }
         else
         {
-            // 클라이언트: 위치와 방향을 받습니다.
+            // 클라이언트: 위치, 방향, '속도'를 차례대로 받습니다.
             Vector3 networkPosition = (Vector3)stream.ReceiveNext();
             direction = (Vector2)stream.ReceiveNext();
+            
 
-            // [수정된 부분 2: 네트워크 지연(Ping) 보상]
-            // 패킷이 날아오는 찰나의 시간 동안 공이 이미 이동했을 거리까지 계산해서 더해줍니다.
+            // [네트워크 지연 보상] 받은 속도를 바탕으로 오차를 완벽하게 계산합니다.
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             targetLocalPos = networkPosition + (Vector3)(direction * speed * lag);
         }

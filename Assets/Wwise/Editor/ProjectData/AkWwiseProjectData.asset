@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AcousticTextureWwu:
   - PhysicalPath: Virtual Acoustics\Default Work Unit.wwu
+  - PhysicalPath: Virtual Acoustics\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Virtual Acoustics
       ObjectType: 5
@@ -22,11 +23,14 @@ MonoBehaviour:
       ObjectType: 12
       guid: ab8520bcefcb574ba8c25a6c2e41db37
     ParentPath: Virtual Acoustics\Default Work Unit
+    ParentPath: Virtual Acoustics\Default Work Unit
     guid: ab8520bcefcb574ba8c25a6c2e41db37
     GuidInternal: 
     m_lastTime: -8584294070704775808
+    m_lastTime: -8584294070704775808
     List: []
   AuxBusWwu:
+  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Master-Mixer Hierarchy
@@ -36,8 +40,10 @@ MonoBehaviour:
       ObjectType: 12
       guid: d31974a022525340a2459008ebc78d39
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
+    ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: d31974a022525340a2459008ebc78d39
     GuidInternal: 
+    m_lastTime: -8584294070704775808
     m_lastTime: -8584294070704775808
     List:
     - name: Master Audio Bus
@@ -54,7 +60,9 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
   BankWwu:
+  - PhysicalPath: SoundBanks\Default Work Unit.wwu
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: SoundBanks
@@ -64,9 +72,10 @@ MonoBehaviour:
       ObjectType: 12
       guid: 47c34ec827900b489413f9684e06fd3e
     ParentPath: SoundBanks\Default Work Unit
+    ParentPath: SoundBanks\Default Work Unit
     guid: 47c34ec827900b489413f9684e06fd3e
     GuidInternal: 
-    m_lastTime: -8584277667514775808
+    m_lastTime: -8584276397574775808
     List:
     - name: Test
       guid: 1a60ec39f787dc4499b1bfa521f90575
@@ -82,7 +91,9 @@ MonoBehaviour:
         ObjectType: 7
         guid: 1a60ec39f787dc4499b1bfa521f90575
       Path: SoundBanks\Default Work Unit\Test
+      Path: SoundBanks\Default Work Unit\Test
   EventWwu:
+  - PhysicalPath: Events\Default Work Unit.wwu
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -91,6 +102,7 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: 32d741fa6ae83a42aa3f8e806f706175
+    ParentPath: Events\Default Work Unit
     ParentPath: Events\Default Work Unit
     guid: 32d741fa6ae83a42aa3f8e806f706175
     GuidInternal: 
@@ -130,7 +142,38 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 55.05002
       minDuration: 55.05002
+  - PhysicalPath: Events\Voice Chate Unit.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Voice Chate Unit
+      ObjectType: 12
+      guid: 55b6709029cd3b488877c761e5fbd09a
+    ParentPath: Events\Voice Chate Unit
+    guid: 55b6709029cd3b488877c761e5fbd09a
+    GuidInternal: 
+    m_lastTime: -8584276400104775808
+    List:
+    - name: PlayerVoice
+      guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      id: 47937584
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Voice Chate Unit
+        ObjectType: 12
+        guid: 55b6709029cd3b488877c761e5fbd09a
+      - ElementName: PlayerVoice
+        ObjectType: 3
+        guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      Path: Events\Voice Chate Unit\PlayerVoice
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
+  - PhysicalPath: Game Parameters\Default Work Unit.wwu
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -140,11 +183,14 @@ MonoBehaviour:
       ObjectType: 12
       guid: 3c0a4ee411369145ab270d93d5cc5627
     ParentPath: Game Parameters\Default Work Unit
+    ParentPath: Game Parameters\Default Work Unit
     guid: 3c0a4ee411369145ab270d93d5cc5627
     GuidInternal: 
     m_lastTime: -8584294070704775808
+    m_lastTime: -8584294070704775808
     List: []
   StateWwu:
+  - PhysicalPath: States\Default Work Unit.wwu
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: States
@@ -154,11 +200,14 @@ MonoBehaviour:
       ObjectType: 12
       guid: 3ea2ae523fa4384993f0a3224223503f
     ParentPath: States\Default Work Unit
+    ParentPath: States\Default Work Unit
     guid: 3ea2ae523fa4384993f0a3224223503f
     GuidInternal: 
     m_lastTime: -8584294070704775808
+    m_lastTime: -8584294070704775808
     List: []
   SwitchWwu:
+  - PhysicalPath: Switches\Default Work Unit.wwu
   - PhysicalPath: Switches\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Switches
@@ -168,11 +217,14 @@ MonoBehaviour:
       ObjectType: 12
       guid: 1eaec6ff74072743a18c38e5dd36cada
     ParentPath: Switches\Default Work Unit
+    ParentPath: Switches\Default Work Unit
     guid: 1eaec6ff74072743a18c38e5dd36cada
     GuidInternal: 
     m_lastTime: -8584294070704775808
+    m_lastTime: -8584294070704775808
     List: []
   TriggerWwu:
+  - PhysicalPath: Triggers\Default Work Unit.wwu
   - PhysicalPath: Triggers\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Triggers
@@ -182,13 +234,16 @@ MonoBehaviour:
       ObjectType: 12
       guid: e06f15d9dd8cde4297d80546b8dc51b7
     ParentPath: Triggers\Default Work Unit
+    ParentPath: Triggers\Default Work Unit
     guid: e06f15d9dd8cde4297d80546b8dc51b7
     GuidInternal: 
     m_lastTime: -8584294070704775808
+    m_lastTime: -8584294070704775808
     List: []
-  ExpandedFileSystemItemIds: 02000000030000000a0000000b000000
+  ExpandedFileSystemItemIds: 01000000020000000300000006000000080000000a0000000b0000000d0000000e00000010000000
   ExpandedWaapiItemIds: 0a0000000b000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
+  currentDataSource: 1
   currentDataSource: 1
   CurrentPluginConfig: 

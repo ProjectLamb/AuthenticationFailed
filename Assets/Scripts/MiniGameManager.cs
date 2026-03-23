@@ -66,6 +66,7 @@ public class MiniGameManager : MonoBehaviourPun
         try
         {
             Vector3 spawnPos = new Vector3(-49.4420013f, 18.2560005f, 0f);
+
             string resourcePath = $"{MiniGameDir}/{minigameName}";
 
             // 생성 (프리팹, 위치, 회전값)
@@ -75,7 +76,7 @@ public class MiniGameManager : MonoBehaviourPun
 
         } catch (System.Exception e)
         {
-            Debug.LogError($"{MiniGameDir}에 {minigameName} 프리팹이 없습니다. 에러: {{e.Message}}\"");
+            Debug.LogError($"{MiniGameDir}에 {minigameName} 프리팹이 없습니다. 에러: {e.Message}");
         }
     }
 }

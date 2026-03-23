@@ -1,7 +1,0 @@
-Event	ID	Name			Wwise Object Path	Notes
-	576110585	test2			\Default Work Unit\test2	
-	3157003241	test			\Default Work Unit\test	
-
-In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	8738664	Main_Theme_sketch_Yoonho	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\Main_Theme_sketch_Yoonho_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\Main_Theme_sketch_Yoonho\Main_Theme_sketch_Yoonho		10569700
-

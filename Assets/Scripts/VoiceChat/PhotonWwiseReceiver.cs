@@ -8,7 +8,10 @@ public class PhotonWwiseReceiver : MonoBehaviour
     [Header("Wwise Settings")]
     public AK.Wwise.Event voicePlayEvent;
 
-    private const int BUFFER_SIZE = 48000;
+    // 기존: private const int BUFFER_SIZE = 48000; 
+
+    // 변경: 0.2초 분량의 버퍼만 유지 (네트워크 튐 현상만 방어할 최소한의 크기)
+    private const int BUFFER_SIZE = 9600;
     private FloatRingBuffer ringBuffer;
     private uint playingId;
     private AudioSource unityAudioSource;
@@ -48,17 +51,36 @@ public class PhotonWwiseReceiver : MonoBehaviour
     void OnAudioFilterRead(float[] data, int channels)
     {
         if (data == null || ringBuffer == null) return;
-        ringBuffer.Write(data);
+
+        // [핵심 해결책] 유니티가 스테레오(2채널)로 데이터를 줬다면?
+        if (channels == 2)
+        {
+            // 배열 크기를 절반으로 줄인 모노 배열을 만듭니다.
+            float[] monoData = new float[data.Length / 2];
+
+            for (int i = 0; i < monoData.Length; i++)
+            {
+                // 왼쪽(i*2) 소리와 오른쪽(i*2+1) 소리를 더해서 반으로 나눔 (모노 다운믹스)
+                monoData[i] = (data[i * 2] + data[i * 2 + 1]) * 0.5f;
+            }
+
+            // 압축된 모노 데이터를 Wwise 물통(링버퍼)에 넣습니다.
+            ringBuffer.Write(monoData);
+        }
+        else
+        {
+            // 만약 이미 모노(1채널)로 들어오고 있다면 그대로 넣습니다.
+            ringBuffer.Write(data);
+        }
     }
 
     // [Wwise Audio 스레드] 포맷 정보 전달
     void AudioFormatDelegate(uint playingID, AkAudioFormat format)
     {
+        // ✅ 유니티 엔진이 실제로 뱉어내는 샘플레이트를 동적으로 가져와서 꽂아주는 게 가장 완벽합니다.
         format.uSampleRate = (uint)AudioSettings.outputSampleRate;
 
-        // [수정됨] uChannelMask 대신 최신 API인 channelConfig 사용
-        // 4 = AK_SPEAKER_SETUP_MONO (모노/1채널 마이크 세팅)
-        format.channelConfig.SetStandard(4);
+        format.channelConfig.SetStandard(4); // 모노 설정 (이건 그대로 유지)
     }
 
     // [Wwise Audio 스레드] 버퍼 데이터 전달

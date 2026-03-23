@@ -9,7 +9,7 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
 
     public Canvas canvasBird;
     public GameObject flappyGame;
-    public Image failImg;
+    public GameObject failWindow;
     private Rigidbody rigid;
 
     void Awake()
@@ -63,7 +63,7 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
     IEnumerator FailAlert()
     {
         Time.timeScale = 0;
-        failImg.gameObject.SetActive(true);
+        failWindow.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1;
         Destroy(flappyGame.gameObject);

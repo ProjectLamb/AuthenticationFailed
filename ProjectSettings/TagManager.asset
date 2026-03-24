@@ -4,13 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - RedLine
   - WH_Virus
   - WH_Vaccine
   - JW_PIPE
-  - Wall
   - WH_Ground
   - WH_Obstacle
+  - JW_FLAPPY_MID
   layers:
   - Default
   - TransparentFX

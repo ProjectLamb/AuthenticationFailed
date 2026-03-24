@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -39,51 +39,27 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - HeresWhy
-  - RpcSpawnMiniGame
-  - RpcReportActionToServer
-  - RpcSyncDisplay
-  - RpcResetBlocks
-  - RpcSyncTimer
-  - RpcForceNextTurn
-  - RpcSyncForceNext
-  - RpcResetGame
-  - RpcApplyCustomProperties
-  - RpcSpawnCustomObject
   - RPC_HandleCollision
+  - RPC_HandleStopCount
   - RPC_MasterSpawnRequest
+  - RPC_SyncEndGame
   - RPC_SyncSpawn
-  - RpcSyncTimer
-  - RpcLauncherClick
-  - RpcRegClick
-  - RpcGameOver
-  - RpcSetupPipe
-  - MovePipe
-  - ControlPipe
-  - RpcAddCombo
-  - RpcEndGame
-  - RpcResetCombo
-  - RpcSyncBall
-  - RpcSyncCombo
-  - SyncPaddlePosition
-  - RpcRespawnEnd
-  - RpcRespawnStart
-  - RpcStopBall
-  - RpcSyncPaddle
-  - RPC_TriggerClear
-  - RPC_TriggerVirus
   - RPC_TriggerClearUI
   - RPC_TriggerVirusUI
-  - RPC_SyncScore
-  - RPC_EndGame_Dino
-  - RPC_HandleGoal_Dino
-  - RPC_HandleStop_Dino
-  - RPC_HandleStopCount
-  - RPC_SyncEndGame
-  - RpcCheckPasswordStep
-  - RpcSyncPassword
-  - RpcResetAllPads
-  - RpcUpdatePadVisual
+  - RpcApplyCustomProperties
   - RpcBroadcastReset
+  - RpcCheckPasswordStep
+  - RpcGameOver
+  - RpcLauncherClick
+  - RpcRegClick
+  - RpcReportActionToServer
+  - RpcSetupPipe
+  - RpcSpawnCustomObject
+  - RpcSyncDisplay
+  - RpcSyncPassword
+  - RpcSyncTimer
+  - RpcUpdatePadVisual
+  - SyncPipePosition
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0

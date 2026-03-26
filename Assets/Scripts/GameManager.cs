@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPun
 {
     private static GameManager instance = null;
 
@@ -21,6 +22,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameObject canvasDesktop;
+    public GameObject canvasMobile;
+
     void Awake()
     {
         if (instance == null)
@@ -32,6 +36,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void DesktopOn()
+    {
+        canvasDesktop.SetActive(true);
+        
+    }
+
+    public void MobileOn()
+    {
+        canvasMobile.SetActive(true);
     }
 
     public void MiniGame()

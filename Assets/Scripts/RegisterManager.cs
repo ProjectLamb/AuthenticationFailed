@@ -30,7 +30,6 @@ public class RegisterManager : MonoBehaviourPun
     {
         alert.SetActive(true);
         audioSource.PlayOneShot(alertSound);
-        StartCoroutine("AlertOff");
     }
 
     public void LauncherClick()
@@ -46,9 +45,8 @@ public class RegisterManager : MonoBehaviourPun
         Debug.Log("클릭은 되고있어");
     }
 
-    IEnumerator AlertOff()
+    public void StartMiniGame()
     {
-        yield return new WaitForSeconds(2f);
         alert.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {

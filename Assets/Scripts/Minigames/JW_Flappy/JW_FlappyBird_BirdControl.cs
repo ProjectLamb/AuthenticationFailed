@@ -29,10 +29,11 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Jump();
+            photonView.RPC("Jump", RpcTarget.All);
         }
     }
 
+    [PunRPC]
     void Jump()
     {
         rigid.velocity = Vector3.zero;

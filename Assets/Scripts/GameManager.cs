@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviourPun
     public GameObject canvasDesktop;
     public GameObject canvasMobile;
 
+
+    public bool IsCanAgree = false;
+    public int stageNumber = 0;
+
     void Awake()
     {
         if (instance == null)

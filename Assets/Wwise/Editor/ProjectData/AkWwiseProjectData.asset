@@ -66,7 +66,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 47c34ec827900b489413f9684e06fd3e
     GuidInternal: 
-    m_lastTime: -8584277667514775808
+    m_lastTime: -8584276397574775808
     List:
     - name: Test
       guid: 1a60ec39f787dc4499b1bfa521f90575
@@ -130,6 +130,36 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 55.05002
       minDuration: 55.05002
+  - PhysicalPath: Events\Voice Chate Unit.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Voice Chate Unit
+      ObjectType: 12
+      guid: 55b6709029cd3b488877c761e5fbd09a
+    ParentPath: Events\Voice Chate Unit
+    guid: 55b6709029cd3b488877c761e5fbd09a
+    GuidInternal: 
+    m_lastTime: -8584276400104775808
+    List:
+    - name: PlayerVoice
+      guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      id: 47937584
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Voice Chate Unit
+        ObjectType: 12
+        guid: 55b6709029cd3b488877c761e5fbd09a
+      - ElementName: PlayerVoice
+        ObjectType: 3
+        guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      Path: Events\Voice Chate Unit\PlayerVoice
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:

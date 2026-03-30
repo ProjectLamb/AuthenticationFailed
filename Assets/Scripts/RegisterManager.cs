@@ -11,8 +11,13 @@ public class RegisterManager : MonoBehaviourPun
     private AudioSource audioSource;
     public AudioClip alertSound;
 
+    [Header("각 스테이지 오브젝트 모음")]
+    public GameObject agreeWindow;
     public GameObject regWindow;
+
+    [Header("정보,알림창")]
     public GameObject alert;
+    public GameObject howtoplay;
 
 
     void Awake()
@@ -20,17 +25,24 @@ public class RegisterManager : MonoBehaviourPun
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void RegClick()
+    public void AgreeClick()
     {
         // 내 화면만 바꾸는 게 아니라, 모든 사람(RpcTarget.All)에게 실행하라고 명령합니다.
-        photonView.RPC("RpcRegClick", RpcTarget.All);
+        photonView.RPC("RpcAgreeClick", RpcTarget.All);
     }
     [PunRPC]
-    void RpcRegClick()
+    void RpcAgreeClick()
     {
-        alert.SetActive(true);
-        audioSource.PlayOneShot(alertSound);
-        StartCoroutine("AlertOff");
+        if (!GameManager.Instance.IsCanAgree)
+        {
+            alert.SetActive(true);
+            audioSource.PlayOneShot(alertSound);
+        }
+        else
+        {
+            Debug.Log("동의하기 성공");
+            agreeWindow.SetActive(false);
+        }
     }
 
     public void LauncherClick()
@@ -42,14 +54,29 @@ public class RegisterManager : MonoBehaviourPun
     [PunRPC]
     void RpcLauncherClick()
     {
-        regWindow.SetActive(true);
-        Debug.Log("클릭은 되고있어");
+        switch (GameManager.Instance.stageNumber)
+        {
+            case 0:
+                agreeWindow.SetActive(true);
+                break;
+            case 1:
+                regWindow.SetActive(true);
+                break;
+            default:
+                Debug.Log("올바른 스테이지 설정이 되어있지 않습니다!");
+                break;
+
+        }
     }
 
-    IEnumerator AlertOff()
+    public void HowToPlay()
     {
-        yield return new WaitForSeconds(2f);
         alert.SetActive(false);
+        howtoplay.SetActive(true);
+    }
+    public void StartMiniGame()
+    {
+        howtoplay.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
             GameManager.Instance.MiniGame();

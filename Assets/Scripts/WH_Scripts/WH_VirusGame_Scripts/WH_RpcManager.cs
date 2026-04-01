@@ -19,6 +19,8 @@ public class WH_RpcManager : MonoBehaviourPun
     {
         // 서버 동기화 시간을 위해 0.2초 대기 후 역할 설정
         StartCoroutine(DelayedSetup());
+        //PhotonNetwork.OfflineMode = true; //-> 오프라인 테스트
+
     }
 
     IEnumerator DelayedSetup()
@@ -29,7 +31,7 @@ public class WH_RpcManager : MonoBehaviourPun
         p2View.SetActive(!isMaster);
     }
 
-    void Update()
+    /*void Update()
     {
         // 모든 판정은 마스터(1P)만 수행
         if (!PhotonNetwork.IsMasterClient || isGameEnded) return;
@@ -40,11 +42,46 @@ public class WH_RpcManager : MonoBehaviourPun
             isGameEnded = true;
             photonView.RPC("RPC_TriggerClearUI", RpcTarget.All);
         }
+    }*/
+
+    void Update()
+    {
+        if (isGameEnded) return;
+
+        if (PhotonNetwork.OfflineMode)
+        {
+            if (p1Downloader.IsFull())
+            {
+                isGameEnded = true;
+                gameManager.TriggerStageClear();
+            }
+            return;
+        }
+
+        // 온라인 모드
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (p1Downloader.IsFull())
+        {
+            isGameEnded = true;
+            photonView.RPC("RPC_TriggerClearUI", RpcTarget.All);
+        }
     }
 
     // --- 스폰 및 충돌 통신 ---
-    public void RequestSpawn() => photonView.RPC("RPC_MasterSpawnRequest", RpcTarget.MasterClient);
+    // public void RequestSpawn() => photonView.RPC("RPC_MasterSpawnRequest", RpcTarget.MasterClient);
 
+    public void RequestSpawn()
+    {
+        if (PhotonNetwork.OfflineMode)
+        {
+            spawner.SpawnVirus(); // 직접 실행
+        }
+        else
+        {
+            photonView.RPC("RPC_MasterSpawnRequest", RpcTarget.MasterClient);
+        }
+    }
     [PunRPC]
     void RPC_MasterSpawnRequest()
     {
@@ -58,7 +95,21 @@ public class WH_RpcManager : MonoBehaviourPun
         spawner.SpawnVirus();
     }
 
-    public void ReportCollision(string tag) => photonView.RPC("RPC_HandleCollision", RpcTarget.MasterClient, tag);
+    //public void ReportCollision(string tag) => photonView.RPC("RPC_HandleCollision", RpcTarget.MasterClient, tag);
+    public void ReportCollision(string tag)
+    {
+        if (PhotonNetwork.OfflineMode)
+        {
+            if (tag == "WH_Virus")
+            {
+                gameManager.TriggerVirusPenalty();
+            }
+        }
+        else
+        {
+            photonView.RPC("RPC_HandleCollision", RpcTarget.MasterClient, tag);
+        }
+    }
 
     [PunRPC]
     void RPC_HandleCollision(string tag)

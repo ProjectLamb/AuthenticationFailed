@@ -47,6 +47,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             if (p.ActorNumber == 1)
             {
                 pcStatusText.gameObject.SetActive(true);
+                LoadingManager.Instance.LoadingPC();
                 if(PhotonNetwork.LocalPlayer.ActorNumber == 1) GameManager.Instance.DesktopOn();
             }
             // �� ��°�� ���� ������Դ� ActorNumber 2�� �ݴϴ� (����Ʈ��)

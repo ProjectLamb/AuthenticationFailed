@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviourPun
 
 
     public bool IsCanAgree = false;
+    public bool IsPCLoading = false;
     public int stageNumber = 0;
 
     void Awake()

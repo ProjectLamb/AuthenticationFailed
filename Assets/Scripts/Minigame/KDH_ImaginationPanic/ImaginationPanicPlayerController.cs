@@ -9,6 +9,10 @@ public class ImaginationPanicPlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float turnSpeed = 15f; // 캐릭터가 도는 속도
 
+    [Header("점프 설정")]
+    public float jumpForce = 5f; // 인스펙터에서 적당한 높이로 조절
+    private bool isGrounded = true; // 무한 점프 방지용 (바닥 체크)
+
     private Rigidbody rb;
     private Vector3 movement;
     private Camera mainCamera;
@@ -55,11 +59,27 @@ public class ImaginationPanicPlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(movement);
             rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
+
+        // 점프 로직
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
     }
 
     void FixedUpdate()
     {
         // 물리적인 이동 처리
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    // 바닥(징검다리, 데드존 등)에 닿으면 다시 점프 가능하도록 처리
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("WH_Ground"))
+        {
+            isGrounded = true;
+        }
     }
 }

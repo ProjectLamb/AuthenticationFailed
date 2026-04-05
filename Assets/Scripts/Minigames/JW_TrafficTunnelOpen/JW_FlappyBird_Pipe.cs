@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // (필요시) Slider 컴포넌트 제어를 위해 추가
 using UnityEngine.EventSystems;
-using Photon.Pun; 
+using Photon.Pun;
 
 public class JW_FlappyBird_Pipe : MonoBehaviourPun
 {
@@ -16,28 +16,24 @@ public class JW_FlappyBird_Pipe : MonoBehaviourPun
     void Start()
     {
         IsControl = false;
-        
+
         // 로컬 플레이어가 조종자인 경우에만 슬라이더 UI 동기화
         if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
             JW_FlappyBird_PipeSpawn.Instance.pipeSlider.value = PipePosToSliderValue();
         }
-        
+
         // 코루틴 실행
         StartCoroutine(SetControl());
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // 1. 마스터 클라이언트: 왼쪽으로 계속 이동 및 소멸 로직
-        if (PhotonNetwork.IsMasterClient)
-        {
-            this.transform.localPosition += new Vector3(-0.03f * Time.deltaTime, 0, 0);
+        this.transform.localPosition += new Vector3(-0.03f * Time.deltaTime, 0, 0);
 
-            if (this.transform.localPosition.x < -0.0762f)
-            {
-                PhotonNetwork.Destroy(this.gameObject);
-            }
+        if (this.transform.localPosition.x < -0.0762f)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
         }
 
         // 2. Actor 2 (조종자): 슬라이더 값을 마스터에게 전송
@@ -50,13 +46,13 @@ public class JW_FlappyBird_Pipe : MonoBehaviourPun
 
     void SendInput()
     {
-        photonView.RPC("SyncPipePosition", RpcTarget.MasterClient, sliderValue);
+        photonView.RPC("SyncPipePosition", RpcTarget.All, sliderValue);
     }
 
     [PunRPC]
     void SyncPipePosition(float ratio)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        // if (!PhotonNetwork.IsMasterClient) return;
 
         float targetY = Mathf.Lerp(minY, maxY, ratio);
         Vector3 currentPos = transform.localPosition;
@@ -95,7 +91,7 @@ public class JW_FlappyBird_Pipe : MonoBehaviourPun
 
         // 4. 마우스를 완전히 뗐음이 확인되면 그제서야 조작 권한 부여
         IsControl = true;
-        
+
         if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
             JW_FlappyBird_PipeSpawn.Instance.pipeSlider.interactable = true;

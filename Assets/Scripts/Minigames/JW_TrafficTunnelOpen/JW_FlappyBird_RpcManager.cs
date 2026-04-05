@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class FolderHell_RpcManager : MonoBehaviourPun
+public class JW_Flappy_RpcManager : MonoBehaviourPun
 {
-    [Header("UI ����")]
+    [Header("UI")]
     public TextMeshProUGUI timerText;
     private int limitTime = 30;
     public GameObject successWindow;
@@ -55,5 +55,6 @@ public class FolderHell_RpcManager : MonoBehaviourPun
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1;
         flappyGame.SetActive(false);
+        GameManager.Instance.IsCanAgree = true;
     }
 }

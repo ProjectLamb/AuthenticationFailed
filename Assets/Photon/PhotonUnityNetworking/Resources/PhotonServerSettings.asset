@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: kr
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -39,13 +39,9 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - HeresWhy
-  - RPC_HandleCollision
-  - RPC_HandleStopCount
-  - RPC_MasterSpawnRequest
-  - RPC_SyncEndGame
-  - RPC_SyncSpawn
-  - RPC_TriggerClearUI
-  - RPC_TriggerVirusUI
+  - DestroySpaceship
+  - Fire
+  - RespawnSpaceship
   - RpcApplyCustomProperties
   - RpcBroadcastReset
   - RpcCheckPasswordStep
@@ -53,13 +49,26 @@ MonoBehaviour:
   - RpcLauncherClick
   - RpcRegClick
   - RpcReportActionToServer
+  - RpcRespawnEnd
+  - RpcRespawnStart
   - RpcSetupPipe
   - RpcSpawnCustomObject
+  - RpcStopBall
+  - RpcSyncCombo
   - RpcSyncDisplay
+  - RpcSyncPaddle
   - RpcSyncPassword
   - RpcSyncTimer
   - RpcUpdatePadVisual
   - SyncPipePosition
+  - RpcSyncScore
+  - RpcChangeTurn
+  - RpcShootPlane
+  - RpcLaunch
+  - RpcStartPhase2
+  - RpcSyncScoreP2
+  - RpcDestroy
+  - RpcShoot
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

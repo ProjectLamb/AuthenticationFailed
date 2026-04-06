@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using TMPro;
 public class LoadingManager : MonoBehaviour
 {
     private static LoadingManager instance = null;
@@ -27,6 +27,13 @@ public class LoadingManager : MonoBehaviour
     public Image PCLoadingLogo;
     public RawImage PCLoadingBackground;
 
+    [Header("Moblie LOADING PANEL")]
+
+    public Canvas MBLoadingCanvas;
+    public GameObject MBLoadingPanel;
+    public GameObject MBLoadingPower;
+    public TextMeshProUGUI MBTitle;
+    public RawImage MBLoadingBackground;
 
     void Awake()
     {
@@ -48,6 +55,13 @@ public class LoadingManager : MonoBehaviour
         StartCoroutine("LoadingPCEnd");
     }
 
+    public void LoadingMobile()
+    {
+        MBLoadingCanvas.enabled = true;
+        MBLoadingPanel.SetActive(true);
+        StartCoroutine("LoadingMBEnd");
+    }
+
     IEnumerator LoadingPCEnd()
     {
         yield return new WaitForSeconds(2.5f);
@@ -58,5 +72,17 @@ public class LoadingManager : MonoBehaviour
         PCLoadingBackground.DOFade(0f,1f);
         yield return new WaitForSeconds(1.0f);
         PCLoadingCanvas.enabled = false;
+    }
+
+    IEnumerator LoadingMBEnd()
+    {
+        yield return new WaitForSeconds(2.5f);
+        MBLoadingPower.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        MBTitle.DOFade(0f, 1f);
+        yield return new WaitForSeconds(1.0f);
+        MBLoadingBackground.DOFade(0f,1f);
+        yield return new WaitForSeconds(1.0f);
+        MBLoadingCanvas.enabled = false;
     }
 }

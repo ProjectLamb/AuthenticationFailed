@@ -24,18 +24,19 @@ public class UIManager : MonoBehaviourPunCallbacks
         // ������ ���� �ؽ�Ʈ�� �� ���Ӵϴ�.
         pcStatusText.gameObject.SetActive(false);
         phoneStatusText.gameObject.SetActive(false);
+        UpdateConnectionUI();
     }
 
     // ���� �濡 ���� ��
     public override void OnJoinedRoom()
     {
-        UpdateConnectionUI();
+        //UpdateConnectionUI();
     }
 
     // �ٸ� ����� �濡 ������ ��
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        UpdateConnectionUI();
+        //UpdateConnectionUI();
     }
 
     // �÷��̾� ����� Ȯ���ؼ� �ؽ�Ʈ�� ���ִ� �Լ�
@@ -54,6 +55,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             else if (p.ActorNumber == 2)
             {
                 phoneStatusText.gameObject.SetActive(true);
+                LoadingManager.Instance.LoadingMobile();
                 if(PhotonNetwork.LocalPlayer.ActorNumber == 2) GameManager.Instance.MobileOn();
             }
         }

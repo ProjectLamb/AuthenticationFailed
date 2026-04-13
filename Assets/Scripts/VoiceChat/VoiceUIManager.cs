@@ -30,13 +30,13 @@ public class UIManager : MonoBehaviourPunCallbacks
     // ���� �濡 ���� ��
     public override void OnJoinedRoom()
     {
-        //UpdateConnectionUI();
+        UpdateConnectionUI();
     }
 
     // �ٸ� ����� �濡 ������ ��
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        //UpdateConnectionUI();
+        UpdateConnectionUI();
     }
 
     // �÷��̾� ����� Ȯ���ؼ� �ؽ�Ʈ�� ���ִ� �Լ�

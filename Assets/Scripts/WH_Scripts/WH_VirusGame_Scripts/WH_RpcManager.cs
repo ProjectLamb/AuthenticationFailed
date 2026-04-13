@@ -74,7 +74,7 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
     {
         if (spawner == null)
         {
-            Debug.LogError("[RpcManager] spawner°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[RpcManager] spawnerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
@@ -111,11 +111,14 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
         readyPlayers.Add(actorNumber);
 
         int current = readyPlayers.Count;
-        int total = 2;
+        int total = PhotonNetwork.CurrentRoom.PlayerCount; // ğŸ”¥ í•µì‹¬ ë³€ê²½
 
         photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
 
-        if (current >= total)
+        Debug.Log($"[READY] current={current}, total={total}");
+
+        // ğŸ”¥ ì§„ì§œ í•µì‹¬ ì¡°ê±´
+        if (current >= total && total >= 2)
         {
             photonView.RPC(nameof(RPC_StartMiniGame), RpcTarget.All);
         }
@@ -132,6 +135,13 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
     void RPC_StartMiniGame()
     {
         if (gameStarted) return;
+
+        // ğŸ”¥ ì´ê±° ì—†ìœ¼ë©´ ë˜ ëš«ë¦¼
+        if (PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        {
+            Debug.LogWarning("í”Œë ˆì´ì–´ ë¶€ì¡±ìœ¼ë¡œ ì‹œì‘ ì°¨ë‹¨ë¨");
+            return;
+        }
 
         gameStarted = true;
         isGameEnded = false;
@@ -164,7 +174,7 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
 
     public void ReportCollision(string tag)
     {
-        Debug.Log($"[RpcManager] ReportCollision È£ÃâµÊ: {tag}");
+        Debug.Log($"[RpcManager] ReportCollision È£ï¿½ï¿½ï¿½: {tag}");
 
         if (!gameStarted || isGameEnded) return;
 
@@ -191,7 +201,7 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
         if (gameManager != null)
             gameManager.UpdateLifeUI(currentLife);
 
-        Debug.Log($"[VirusGame] ¿ÀÇÁ¶óÀÎ ÇÇ°İ, ³²Àº ¶óÀÌÇÁ: {currentLife}");
+        Debug.Log($"[VirusGame] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {currentLife}");
 
         if (currentLife <= 0)
         {
@@ -211,7 +221,7 @@ public class WH_RpcManager : MonoBehaviourPunCallbacks
             currentLife--;
             currentLife = Mathf.Max(currentLife, 0);
 
-            Debug.Log($"[VirusGame] ÇÇ°İ! ³²Àº ¶óÀÌÇÁ: {currentLife}");
+            Debug.Log($"[VirusGame] ï¿½Ç°ï¿½! ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {currentLife}");
 
             photonView.RPC(nameof(RPC_UpdateLifeUI), RpcTarget.All, currentLife);
 

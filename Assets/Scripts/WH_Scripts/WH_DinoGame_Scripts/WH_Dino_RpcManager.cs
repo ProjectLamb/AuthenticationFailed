@@ -131,12 +131,12 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
 
             if (PhotonNetwork.IsMasterClient)
             {
-                WH_RegisterManager[] regManagers =
-                    Object.FindObjectsByType<WH_RegisterManager>(FindObjectsSortMode.None);
+                RegisterManager[] regManagers =
+                    Object.FindObjectsByType<RegisterManager>(FindObjectsSortMode.None);
 
                 if (regManagers != null && regManagers.Length > 0)
                 {
-                    WH_RegisterManager targetManager = null;
+                    RegisterManager targetManager = null;
 
                     foreach (var reg in regManagers)
                     {

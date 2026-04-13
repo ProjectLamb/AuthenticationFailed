@@ -20,7 +20,7 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
         rb = GetComponent<Rigidbody2D>();
         rpcManager = FindObjectOfType<WH_Dino_RpcManager>();
 
-        Debug.Log($"{gameObject.name} º“¿Ø±« ø©∫Œ: {photonView.IsMine}");
+        Debug.Log($"{gameObject.name} ÏÜåÏú†Í∂å Ïó¨Î∂Ä: {photonView.IsMine}");
     }
 
     void Update()
@@ -37,7 +37,7 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
-            Debug.Log($"{gameObject.name} ¡°«¡ Ω««‡!");
+            Debug.Log($"{gameObject.name} Ï†êÌîÑ Ïã§Ìñâ!");
         }
     }
 

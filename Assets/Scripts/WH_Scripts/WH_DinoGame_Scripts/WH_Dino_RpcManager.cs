@@ -8,30 +8,23 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
 {
     public WH_Dino_Manager gameManager;
 
-
     private int stopCount = 0;
     private bool gameEnded = false;
     private bool gameStarted = false;
 
-    // �غ� �Ϸ��� �÷��̾ actorNumber�� ����
-    private HashSet<int> readyPlayers = new HashSet<int>();
+    private readonly HashSet<int> readyPlayers = new HashSet<int>();
 
-    // -----------------------------
-    // �� �÷��̾ �غ� ��ư Ŭ��
-    // -----------------------------
     public void OnClickReadyButton()
     {
         if (!PhotonNetwork.IsConnected)
             return;
 
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        Debug.Log($"[Dino] �غ� ��ư Ŭ�� / ActorNumber={actorNumber}");
+        Debug.Log($"[Dino] 준비 버튼 클릭 / ActorNumber={actorNumber}");
 
-        // ���忡�� �غ� ��û ����
         photonView.RPC(nameof(RPC_RegisterReady), RpcTarget.MasterClient, actorNumber);
     }
 
-    // ������ �غ� ���� ���
     [PunRPC]
     void RPC_RegisterReady(int actorNumber)
     {
@@ -44,13 +37,13 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         readyPlayers.Add(actorNumber);
 
         int current = readyPlayers.Count;
-        int total = 2; // ����� 2�� ����
+        int total = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 2;
 
-        Debug.Log($"[Dino] �غ� �ο�: {current}/{total}");
+        Debug.Log($"[Dino] 준비 인원: {current}/{total}");
 
         photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
 
-        if (current >= total)
+        if (current >= total && total >= 2)
         {
             photonView.RPC(nameof(RPC_StartDinoGame), RpcTarget.All);
         }
@@ -65,17 +58,20 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("[Dino] gameManager�� ������� �ʾҽ��ϴ�.");
+            Debug.LogError("[Dino] gameManager가 연결되지 않았습니다.");
         }
     }
 
-    // -----------------------------
-    // ��ü ���� ����
-    // -----------------------------
     [PunRPC]
     void RPC_StartDinoGame()
     {
         if (gameStarted) return;
+
+        if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        {
+            Debug.LogWarning("[Dino] 플레이어 수가 부족해서 시작 취소");
+            return;
+        }
 
         gameStarted = true;
         gameEnded = false;
@@ -87,31 +83,19 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("[Dino] gameManager�� ������� �ʾҽ��ϴ�.");
+            Debug.LogError("[Dino] gameManager가 연결되지 않았습니다.");
         }
     }
 
-    // -----------------------------
-    // ���� ����
-    // -----------------------------
     public void ReportGoal()
     {
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
-        if (gameEnded) return;
-
-        photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
     }
 
-    // -----------------------------
-    // ��ֹ� �浹 ����
-    // -----------------------------
     public void ReportStop()
     {
-        if (gameEnded) return;
-
-        photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
@@ -122,14 +106,12 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
     {
         if (gameEnded) return;
 
-        if (gameEnded) return;
-
         stopCount++;
+        Debug.Log($"[Dino] stopCount = {stopCount}");
 
-
+        // 둘 다 부딪혔을 때만 실패
         if (stopCount >= 2)
         {
-            photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
             photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
         }
     }
@@ -169,11 +151,11 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
                         targetManager = regManagers[0];
 
                     targetManager.OnMiniGameClear();
-                    Debug.Log("<color=cyan>���� �ܰ� ���� RPC ���� �Ϸ�</color>");
+                    Debug.Log("<color=cyan>인증 단계 시작 RPC 전송 완료</color>");
                 }
                 else
                 {
-                    Debug.LogError("������ WH_RegisterManager�� ã�� �� �����ϴ�.");
+                    Debug.LogError("씬에서 WH_RegisterManager를 찾을 수 없습니다.");
                 }
             }
         }
@@ -186,7 +168,6 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // �÷��̾ ������ �غ� ī��Ʈ�� �ٽ� �ݿ�
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -195,7 +176,9 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         if (readyPlayers.Contains(otherPlayer.ActorNumber))
         {
             readyPlayers.Remove(otherPlayer.ActorNumber);
-            photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, readyPlayers.Count, 2);
+
+            int total = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 2;
+            photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, readyPlayers.Count, total);
         }
     }
 }

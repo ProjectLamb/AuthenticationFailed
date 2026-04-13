@@ -11,23 +11,25 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
     private bool isGrounded;
     [HideInInspector] public bool isMoving = true;
 
+    private bool hasReportedStop = false;
+    private bool hasReportedGoal = false;
+    private WH_Dino_RpcManager rpcManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // 디버그: 내가 이 공룡의 주인인지 확인
+        rpcManager = FindObjectOfType<WH_Dino_RpcManager>();
+
         Debug.Log($"{gameObject.name} 소유권 여부: {photonView.IsMine}");
     }
 
     void Update()
     {
-        // [방어 코드 1] 내 소유가 아니면 절대 조작 불가
         if (!photonView.IsMine || !isMoving) return;
 
-        // [방어 코드 2] 방장은 P1만, 참가자는 P2만 조작 가능하도록 한 번 더 잠금
         if (PhotonNetwork.IsMasterClient && isP2) return;
         if (!PhotonNetwork.IsMasterClient && !isP2) return;
 
-        // 이동 및 점프
         float direction = isP2 ? -1f : 1f;
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
 
@@ -41,19 +43,35 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("WH_Ground")) isGrounded = true;
+        if (collision.gameObject.CompareTag("WH_Ground"))
+        {
+            isGrounded = true;
+            return;
+        }
+
         if (!photonView.IsMine) return;
 
-        if (collision.gameObject.CompareTag("WH_Obstacle")) HandleObstacleCollision(collision.transform);
+        if (collision.gameObject.CompareTag("WH_Obstacle"))
+        {
+            if (hasReportedStop) return;
+            HandleObstacleCollision(collision.transform);
+            return;
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (hasReportedGoal) return;
+
+            hasReportedGoal = true;
             StopDino();
-            FindObjectOfType<WH_Dino_RpcManager>()?.ReportGoal();
+            rpcManager?.ReportGoal();
         }
     }
 
     private void HandleObstacleCollision(Transform obstacleTrans)
     {
+        hasReportedStop = true;
+
         isMoving = false;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
@@ -61,9 +79,10 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
 
         string pointName = isP2 ? "P2_Point" : "P1_Point";
         Transform snapPoint = obstacleTrans.Find(pointName);
-        if (snapPoint != null) transform.position = snapPoint.position;
+        if (snapPoint != null)
+            transform.position = snapPoint.position;
 
-        FindObjectOfType<WH_Dino_RpcManager>()?.ReportStop();
+        rpcManager?.ReportStop();
     }
 
     public void StopDino()

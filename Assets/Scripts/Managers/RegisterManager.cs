@@ -8,6 +8,20 @@ using Photon.Pun;
 public class RegisterManager : MonoBehaviourPun
 {
 
+    private static RegisterManager instance = null;
+
+    public static RegisterManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError("No RegisterManagerInstance");
+            }
+            return instance;
+        }
+    }
+
     private AudioSource audioSource;
     public AudioClip alertSound;
 
@@ -19,9 +33,12 @@ public class RegisterManager : MonoBehaviourPun
     public GameObject alert;
     public GameObject howtoplay;
 
+    public bool IsClear = false;
+
 
     void Awake()
     {
+        instance = this;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -33,15 +50,15 @@ public class RegisterManager : MonoBehaviourPun
     [PunRPC]
     void RpcAgreeClick()
     {
-        if (!GameManager.Instance.IsCanAgree)
+        if (!IsClear)
         {
-            alert.SetActive(true);
-            audioSource.PlayOneShot(alertSound);
+            StartMiniGame();
         }
         else
         {
             Debug.Log("동의하기 성공");
             agreeWindow.SetActive(false);
+            IsClear = false;
         }
     }
 
@@ -68,15 +85,8 @@ public class RegisterManager : MonoBehaviourPun
 
         }
     }
-
-    public void HowToPlay()
-    {
-        alert.SetActive(false);
-        howtoplay.SetActive(true);
-    }
     public void StartMiniGame()
     {
-        howtoplay.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
             GameManager.Instance.MiniGame();

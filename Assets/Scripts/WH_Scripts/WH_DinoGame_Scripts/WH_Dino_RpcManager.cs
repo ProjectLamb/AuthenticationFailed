@@ -8,15 +8,16 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
 {
     public WH_Dino_Manager gameManager;
 
+
     private int stopCount = 0;
     private bool gameEnded = false;
     private bool gameStarted = false;
 
-    // ÁØºñ ¿Ï·áÇÑ ÇÃ·¹ÀÌ¾î¸¦ actorNumber·Î °ü¸®
+    // ï¿½Øºï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ actorNumberï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private HashSet<int> readyPlayers = new HashSet<int>();
 
     // -----------------------------
-    // °¢ ÇÃ·¹ÀÌ¾î°¡ ÁØºñ ¹öÆ° Å¬¸¯
+    // ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Øºï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½
     // -----------------------------
     public void OnClickReadyButton()
     {
@@ -24,13 +25,13 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
             return;
 
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        Debug.Log($"[Dino] ÁØºñ ¹öÆ° Å¬¸¯ / ActorNumber={actorNumber}");
+        Debug.Log($"[Dino] ï¿½Øºï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ / ActorNumber={actorNumber}");
 
-        // ¹æÀå¿¡°Ô ÁØºñ ¿äÃ» º¸³¿
+        // ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½Øºï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
         photonView.RPC(nameof(RPC_RegisterReady), RpcTarget.MasterClient, actorNumber);
     }
 
-    // ¹æÀåÀÌ ÁØºñ »óÅÂ µî·Ï
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     [PunRPC]
     void RPC_RegisterReady(int actorNumber)
     {
@@ -43,9 +44,9 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         readyPlayers.Add(actorNumber);
 
         int current = readyPlayers.Count;
-        int total = 2; // ÇöÀç´Â 2ÀÎ ±âÁØ
+        int total = 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        Debug.Log($"[Dino] ÁØºñ ÀÎ¿ø: {current}/{total}");
+        Debug.Log($"[Dino] ï¿½Øºï¿½ ï¿½Î¿ï¿½: {current}/{total}");
 
         photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
 
@@ -64,12 +65,12 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("[Dino] gameManager°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[Dino] gameManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
     // -----------------------------
-    // ÀüÃ¼ °ÔÀÓ ½ÃÀÛ
+    // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     // -----------------------------
     [PunRPC]
     void RPC_StartDinoGame()
@@ -86,25 +87,31 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("[Dino] gameManager°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("[Dino] gameManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
     // -----------------------------
-    // ¼º°ø º¸°í
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     // -----------------------------
     public void ReportGoal()
     {
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
     }
 
     // -----------------------------
-    // Àå¾Ö¹° Ãæµ¹ º¸°í
+    // ï¿½ï¿½Ö¹ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½
     // -----------------------------
     public void ReportStop()
     {
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
@@ -115,10 +122,14 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
     {
         if (gameEnded) return;
 
+        if (gameEnded) return;
+
         stopCount++;
+
 
         if (stopCount >= 2)
         {
+            photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
             photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
         }
     }
@@ -158,11 +169,11 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
                         targetManager = regManagers[0];
 
                     targetManager.OnMiniGameClear();
-                    Debug.Log("<color=cyan>ÀÎÁõ ´Ü°è ½ÃÀÛ RPC Àü¼Û ¿Ï·á</color>");
+                    Debug.Log("<color=cyan>ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ ï¿½ï¿½ï¿½ï¿½ RPC ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½</color>");
                 }
                 else
                 {
-                    Debug.LogError("¾À¿¡¼­ WH_RegisterManager¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                    Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ WH_RegisterManagerï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
                 }
             }
         }
@@ -175,7 +186,7 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ ³ª°¡¸é ÁØºñ Ä«¿îÆ®µµ ´Ù½Ã ¹Ý¿µ
+    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ Ä«ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ý¿ï¿½
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (!PhotonNetwork.IsMasterClient)

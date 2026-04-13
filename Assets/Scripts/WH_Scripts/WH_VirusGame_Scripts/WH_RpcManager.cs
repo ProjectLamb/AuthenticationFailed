@@ -1,8 +1,10 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
+using System.Collections.Generic;
 
-public class WH_RpcManager : MonoBehaviourPun
+public class WH_RpcManager : MonoBehaviourPunCallbacks
 {
     public WH_ObjectSpawner spawner;
     public WH_P2_Controller p2Controller;
@@ -13,52 +15,191 @@ public class WH_RpcManager : MonoBehaviourPun
     public GameObject p1View;
     public GameObject p2View;
 
-    private bool isGameEnded = false;
+    [Header("Auto Spawn")]
+    public float spawnInterval = 1f;
+    public int spawnPerEdge = 3;
 
-    void OnEnable()
+    [Header("P2 Life Settings")]
+    public int maxLife = 3;
+    private int currentLife;
+
+    private bool isGameEnded = false;
+    private bool gameStarted = false;
+    private Coroutine autoSpawnRoutine;
+
+    private HashSet<int> readyPlayers = new HashSet<int>();
+
+    void Start()
     {
-        // 서버 동기화 시간을 위해 0.2초 대기 후 역할 설정
+        currentLife = maxLife;
         StartCoroutine(DelayedSetup());
     }
 
     IEnumerator DelayedSetup()
     {
         yield return new WaitForSeconds(0.2f);
+
         bool isMaster = PhotonNetwork.IsMasterClient;
-        p1View.SetActive(isMaster);
-        p2View.SetActive(!isMaster);
+
+        if (p1View != null) p1View.SetActive(isMaster);
+        if (p2View != null) p2View.SetActive(!isMaster);
     }
 
     void Update()
     {
-        // 모든 판정은 마스터(1P)만 수행
-        if (!PhotonNetwork.IsMasterClient || isGameEnded) return;
+        if (!gameStarted) return;
+        if (isGameEnded) return;
 
-        // [승리 조건] P1 게이지 100% AND P2 백신 10개 이상
-        if (!isGameEnded && p1Downloader.IsFull())
+        if (PhotonNetwork.OfflineMode)
+        {
+            if (p1Downloader != null && p1Downloader.IsFull())
+            {
+                isGameEnded = true;
+                StopAutoSpawn();
+                gameManager.TriggerStageClear();
+            }
+            return;
+        }
+
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (p1Downloader != null && p1Downloader.IsFull())
         {
             isGameEnded = true;
-            photonView.RPC("RPC_TriggerClearUI", RpcTarget.All);
+            StopAutoSpawn();
+            photonView.RPC(nameof(RPC_TriggerClearUI), RpcTarget.All);
+        }
+    }
+    public void RequestSpawn()
+    {
+        if (spawner == null)
+        {
+            Debug.LogError("[RpcManager] spawner가 연결되지 않았습니다.");
+            return;
+        }
+
+        if (PhotonNetwork.OfflineMode)
+        {
+            spawner.SpawnVirus();
+        }
+        else
+        {
+            photonView.RPC(nameof(RPC_SpawnOneVirus), RpcTarget.All);
         }
     }
 
-    // --- 스폰 및 충돌 통신 ---
-    public void RequestSpawn() => photonView.RPC("RPC_MasterSpawnRequest", RpcTarget.MasterClient);
-
     [PunRPC]
-    void RPC_MasterSpawnRequest()
+    void RPC_SpawnOneVirus()
     {
-        photonView.RPC("RPC_SyncSpawn", RpcTarget.All);
+        if (spawner != null)
+            spawner.SpawnVirus();
+    }
+    public void OnClickReadyButton()
+    {
+        if (!PhotonNetwork.IsConnected) return;
+
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        photonView.RPC(nameof(RPC_RegisterReady), RpcTarget.MasterClient, actorNumber);
     }
 
-
     [PunRPC]
-    void RPC_SyncSpawn()
+    void RPC_RegisterReady(int actorNumber)
     {
-        spawner.SpawnVirus();
+        if (!PhotonNetwork.IsMasterClient) return;
+        if (gameStarted) return;
+
+        readyPlayers.Add(actorNumber);
+
+        int current = readyPlayers.Count;
+        int total = 2;
+
+        photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
+
+        if (current >= total)
+        {
+            photonView.RPC(nameof(RPC_StartMiniGame), RpcTarget.All);
+        }
     }
 
-    public void ReportCollision(string tag) => photonView.RPC("RPC_HandleCollision", RpcTarget.MasterClient, tag);
+    [PunRPC]
+    void RPC_UpdateReadyCount(int current, int total)
+    {
+        if (gameManager != null)
+            gameManager.UpdateReadyCountUI(current, total);
+    }
+
+    [PunRPC]
+    void RPC_StartMiniGame()
+    {
+        if (gameStarted) return;
+
+        gameStarted = true;
+        isGameEnded = false;
+        currentLife = maxLife;
+
+        if (gameManager != null)
+        {
+            gameManager.StartGameByNetwork();
+            gameManager.UpdateLifeUI(currentLife);
+        }
+
+        StartCoroutine(StartSpawnWithDelay());
+    }
+
+    IEnumerator StartSpawnWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
+
+        if (isGameEnded) yield break;
+
+        if (spawner != null)
+            spawner.StartAutoSpawn();
+    }
+
+    private void StopAutoSpawn()
+    {
+        if (spawner != null)
+            spawner.StopAutoSpawn();
+    }
+
+    public void ReportCollision(string tag)
+    {
+        Debug.Log($"[RpcManager] ReportCollision 호출됨: {tag}");
+
+        if (!gameStarted || isGameEnded) return;
+
+        if (PhotonNetwork.OfflineMode)
+        {
+            if (tag == "WH_Virus")
+            {
+                HandleVirusHitOffline();
+            }
+        }
+        else
+        {
+            photonView.RPC(nameof(RPC_HandleCollision), RpcTarget.MasterClient, tag);
+        }
+    }
+
+    void HandleVirusHitOffline()
+    {
+        if (isGameEnded) return;
+
+        currentLife--;
+        currentLife = Mathf.Max(currentLife, 0);
+
+        if (gameManager != null)
+            gameManager.UpdateLifeUI(currentLife);
+
+        Debug.Log($"[VirusGame] 오프라인 피격, 남은 라이프: {currentLife}");
+
+        if (currentLife <= 0)
+        {
+            isGameEnded = true;
+            StopAutoSpawn();
+            gameManager.TriggerVirusPenalty();
+        }
+    }
 
     [PunRPC]
     void RPC_HandleCollision(string tag)
@@ -67,12 +208,78 @@ public class WH_RpcManager : MonoBehaviourPun
 
         if (tag == "WH_Virus")
         {
-            isGameEnded = true;
-            photonView.RPC("RPC_TriggerVirusUI", RpcTarget.All);
+            currentLife--;
+            currentLife = Mathf.Max(currentLife, 0);
+
+            Debug.Log($"[VirusGame] 피격! 남은 라이프: {currentLife}");
+
+            photonView.RPC(nameof(RPC_UpdateLifeUI), RpcTarget.All, currentLife);
+
+            if (currentLife <= 0)
+            {
+                isGameEnded = true;
+                StopAutoSpawn();
+                photonView.RPC(nameof(RPC_TriggerVirusUI), RpcTarget.All);
+            }
         }
     }
 
-    //[PunRPC] void RPC_SyncScore(int score) => p2Controller.UpdateScoreUI(score);
-    [PunRPC] void RPC_TriggerVirusUI() => gameManager.TriggerVirusPenalty();
-    [PunRPC] void RPC_TriggerClearUI() => gameManager.TriggerStageClear();
+    [PunRPC]
+    void RPC_UpdateLifeUI(int life)
+    {
+        if (gameManager != null)
+            gameManager.UpdateLifeUI(life);
+    }
+
+    [PunRPC]
+    void RPC_TriggerVirusUI()
+    {
+        if (gameManager != null)
+            gameManager.TriggerVirusPenalty();
+    }
+
+    [PunRPC]
+    void RPC_TriggerClearUI()
+    {
+        StopAutoSpawn();
+
+        if (gameManager != null)
+            gameManager.TriggerStageClear();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            WH_RegisterManager[] regManagers =
+                Object.FindObjectsByType<WH_RegisterManager>(FindObjectsSortMode.None);
+
+            if (regManagers != null && regManagers.Length > 0)
+            {
+                WH_RegisterManager targetManager = null;
+
+                foreach (var reg in regManagers)
+                {
+                    if (reg != null && reg.isDesktop)
+                    {
+                        targetManager = reg;
+                        break;
+                    }
+                }
+
+                if (targetManager == null)
+                    targetManager = regManagers[0];
+
+                targetManager.OnMiniGameClear();
+            }
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (readyPlayers.Contains(otherPlayer.ActorNumber))
+        {
+            readyPlayers.Remove(otherPlayer.ActorNumber);
+            photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, readyPlayers.Count, 2);
+        }
+    }
 }

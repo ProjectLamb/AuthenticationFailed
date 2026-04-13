@@ -1,46 +1,159 @@
 using UnityEngine;
 using System.Collections;
+using Photon.Pun;
+using TMPro;
 
-public class WH_GameManager : MonoBehaviour
+public class WH_GameManager : MonoBehaviourPunCallbacks
 {
+    [Header("게임 루트")]
     public GameObject miniGameRoot;
-    public Transform p1View, p2View; // Inspector에서 P1_View, P2_View 할당 필수
-    public GameObject virusP1, virusP2, clearP1, clearP2;
 
-    public void TriggerVirusPenalty() => StartCoroutine(VirusSequence());
-    public void TriggerStageClear() => StartCoroutine(ClearSequence());
+    [Header("뷰")]
+    public GameObject p1View;
+    public GameObject p2View;
+
+    [Header("시작 전 UI")]
+    public GameObject closeAlertUI;
+    public GameObject howToPlayUI;
+    public TMP_Text readyCountText;
+
+    [Header("결과 UI")]
+    public GameObject virusP1;
+    public GameObject virusP2;
+    public GameObject clearP1;
+    public GameObject clearP2;
+
+    [Header("P2 Life UI")]
+    public GameObject[] p2LifeIcons; // 3칸 이미지 연결
+
+    private bool isGameStarted = false;
+    private bool isGameEnded = false;
+
+    void Start()
+    {
+        SetupInitialView();
+        SetupInitialUI();
+    }
+
+    private void SetupInitialView()
+    {
+        bool isMaster = PhotonNetwork.IsMasterClient;
+
+        if (p1View != null) p1View.SetActive(isMaster);
+        if (p2View != null) p2View.SetActive(!isMaster);
+    }
+
+    private void SetupInitialUI()
+    {
+        isGameStarted = false;
+        isGameEnded = false;
+
+        if (miniGameRoot != null) miniGameRoot.SetActive(false);
+
+        if (closeAlertUI != null) closeAlertUI.SetActive(true);
+        if (howToPlayUI != null) howToPlayUI.SetActive(false);
+
+        if (virusP1 != null) virusP1.SetActive(false);
+        if (virusP2 != null) virusP2.SetActive(false);
+        if (clearP1 != null) clearP1.SetActive(false);
+        if (clearP2 != null) clearP2.SetActive(false);
+
+        UpdateReadyCountUI(0, 2);
+        UpdateLifeUI(3);
+    }
+
+    public void OpenHowToPlay()
+    {
+        if (closeAlertUI != null) closeAlertUI.SetActive(false);
+        if (howToPlayUI != null) howToPlayUI.SetActive(true);
+
+        Debug.Log("[VirusGame] 경고창 종료 -> 플레이방법 창 오픈");
+    }
+
+    public void UpdateReadyCountUI(int current, int total)
+    {
+        if (readyCountText != null)
+        {
+            readyCountText.text = $"{current}/{total}";
+        }
+    }
+
+    public void UpdateLifeUI(int currentLife)
+    {
+        if (p2LifeIcons == null || p2LifeIcons.Length == 0) return;
+
+        for (int i = 0; i < p2LifeIcons.Length; i++)
+        {
+            if (p2LifeIcons[i] != null)
+            {
+                p2LifeIcons[i].SetActive(i < currentLife);
+            }
+        }
+
+        Debug.Log($"[VirusGame] P2 Life UI 갱신: {currentLife}");
+    }
+
+    public void StartGameByNetwork()
+    {
+        if (isGameStarted) return;
+
+        isGameStarted = true;
+        isGameEnded = false;
+
+        if (closeAlertUI != null) closeAlertUI.SetActive(false);
+        if (howToPlayUI != null) howToPlayUI.SetActive(false);
+        if (miniGameRoot != null) miniGameRoot.SetActive(true);
+
+        UpdateLifeUI(3);
+
+        Debug.Log($"<color=yellow>[VirusGame] 미니게임 시작 / IsMaster={PhotonNetwork.IsMasterClient}</color>");
+    }
+
+    public void TriggerVirusPenalty()
+    {
+        if (isGameEnded) return;
+        isGameEnded = true;
+        StartCoroutine(VirusSequence());
+    }
+
+    public void TriggerStageClear()
+    {
+        if (isGameEnded) return;
+        isGameEnded = true;
+        StartCoroutine(ClearSequence());
+    }
 
     private IEnumerator VirusSequence()
     {
-        SetUI(virusP1, virusP2, true);
+        SetResultUI(virusP1, virusP2, true);
+
         yield return new WaitForSeconds(2.0f);
+
         if (miniGameRoot != null) miniGameRoot.SetActive(false);
     }
 
     private IEnumerator ClearSequence()
     {
-        SetUI(clearP1, clearP2, true);
+        SetResultUI(clearP1, clearP2, true);
+
         yield return new WaitForSeconds(2.0f);
+
         if (miniGameRoot != null) miniGameRoot.SetActive(false);
     }
 
-    private void SetUI(GameObject p1, GameObject p2, bool state)
+    private void SetResultUI(GameObject p1Result, GameObject p2Result, bool state)
     {
-        // 1. 결과 텍스트 활성화
-        if (p1) p1.SetActive(state);
-        if (p2) p2.SetActive(state);
+        if (p1Result != null) p1Result.SetActive(state);
+        if (p2Result != null) p2Result.SetActive(state);
 
-        // 2. [디테일 작업] 해당 뷰의 다른 모든 UI 자식들을 숨깁니다.
-        if (p1View != null && p1 != null) HideOthers(p1View, p1);
-        if (p2View != null && p2 != null) HideOthers(p2View, p2);
+        if (p1View != null && p1Result != null) HideOthers(p1View.transform, p1Result);
+        if (p2View != null && p2Result != null) HideOthers(p2View.transform, p2Result);
     }
 
     private void HideOthers(Transform parent, GameObject target)
     {
-        // 부모(View) 밑에 있는 모든 자식을 반복문으로 검사합니다.
         foreach (Transform child in parent)
         {
-            // 결과 텍스트(target)가 아닌 다른 모든 오브젝트는 비활성화합니다.
             if (child.gameObject != target)
             {
                 child.gameObject.SetActive(false);

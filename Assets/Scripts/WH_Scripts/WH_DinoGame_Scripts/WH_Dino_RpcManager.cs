@@ -1,24 +1,117 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class WH_Dino_RpcManager : MonoBehaviourPun
+[RequireComponent(typeof(PhotonView))]
+public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
 {
     public WH_Dino_Manager gameManager;
 
+
     private int stopCount = 0;
     private bool gameEnded = false;
+    private bool gameStarted = false;
 
-    // 성공 보고
+    // �غ� �Ϸ��� �÷��̾ actorNumber�� ����
+    private HashSet<int> readyPlayers = new HashSet<int>();
+
+    // -----------------------------
+    // �� �÷��̾ �غ� ��ư Ŭ��
+    // -----------------------------
+    public void OnClickReadyButton()
+    {
+        if (!PhotonNetwork.IsConnected)
+            return;
+
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        Debug.Log($"[Dino] �غ� ��ư Ŭ�� / ActorNumber={actorNumber}");
+
+        // ���忡�� �غ� ��û ����
+        photonView.RPC(nameof(RPC_RegisterReady), RpcTarget.MasterClient, actorNumber);
+    }
+
+    // ������ �غ� ���� ���
+    [PunRPC]
+    void RPC_RegisterReady(int actorNumber)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        if (gameStarted)
+            return;
+
+        readyPlayers.Add(actorNumber);
+
+        int current = readyPlayers.Count;
+        int total = 2; // ����� 2�� ����
+
+        Debug.Log($"[Dino] �غ� �ο�: {current}/{total}");
+
+        photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
+
+        if (current >= total)
+        {
+            photonView.RPC(nameof(RPC_StartDinoGame), RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void RPC_UpdateReadyCount(int current, int total)
+    {
+        if (gameManager != null)
+        {
+            gameManager.UpdateReadyCountUI(current, total);
+        }
+        else
+        {
+            Debug.LogError("[Dino] gameManager�� ������� �ʾҽ��ϴ�.");
+        }
+    }
+
+    // -----------------------------
+    // ��ü ���� ����
+    // -----------------------------
+    [PunRPC]
+    void RPC_StartDinoGame()
+    {
+        if (gameStarted) return;
+
+        gameStarted = true;
+        gameEnded = false;
+        stopCount = 0;
+
+        if (gameManager != null)
+        {
+            gameManager.StartGameByNetwork();
+        }
+        else
+        {
+            Debug.LogError("[Dino] gameManager�� ������� �ʾҽ��ϴ�.");
+        }
+    }
+
+    // -----------------------------
+    // ���� ����
+    // -----------------------------
     public void ReportGoal()
     {
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
     }
 
-    // 장애물 충돌 보고
+    // -----------------------------
+    // ��ֹ� �浹 ����
+    // -----------------------------
     public void ReportStop()
     {
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
         if (gameEnded) return;
 
         photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
@@ -29,10 +122,14 @@ public class WH_Dino_RpcManager : MonoBehaviourPun
     {
         if (gameEnded) return;
 
+        if (gameEnded) return;
+
         stopCount++;
+
 
         if (stopCount >= 2)
         {
+            photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
             photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
         }
     }
@@ -50,7 +147,6 @@ public class WH_Dino_RpcManager : MonoBehaviourPun
             if (gameManager != null)
                 gameManager.OnSuccess();
 
-            // 인증 단계 시작 신호는 방장만 1회 전송
             if (PhotonNetwork.IsMasterClient)
             {
                 WH_RegisterManager[] regManagers =
@@ -58,7 +154,6 @@ public class WH_Dino_RpcManager : MonoBehaviourPun
 
                 if (regManagers != null && regManagers.Length > 0)
                 {
-                    // 데스크탑용 매니저 우선 찾기
                     WH_RegisterManager targetManager = null;
 
                     foreach (var reg in regManagers)
@@ -70,16 +165,15 @@ public class WH_Dino_RpcManager : MonoBehaviourPun
                         }
                     }
 
-                    // 데스크탑용이 없으면 첫 번째 매니저 사용
                     if (targetManager == null)
                         targetManager = regManagers[0];
 
                     targetManager.OnMiniGameClear();
-                    Debug.Log("<color=cyan>인증 단계 시작 RPC 전송 완료</color>");
+                    Debug.Log("<color=cyan>���� �ܰ� ���� RPC ���� �Ϸ�</color>");
                 }
                 else
                 {
-                    Debug.LogError("씬에서 WH_RegisterManager를 찾을 수 없습니다.");
+                    Debug.LogError("������ WH_RegisterManager�� ã�� �� �����ϴ�.");
                 }
             }
         }
@@ -89,6 +183,19 @@ public class WH_Dino_RpcManager : MonoBehaviourPun
 
             if (gameManager != null)
                 gameManager.OnFailure();
+        }
+    }
+
+    // �÷��̾ ������ �غ� ī��Ʈ�� �ٽ� �ݿ�
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        if (readyPlayers.Contains(otherPlayer.ActorNumber))
+        {
+            readyPlayers.Remove(otherPlayer.ActorNumber);
+            photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, readyPlayers.Count, 2);
         }
     }
 }

@@ -8,12 +8,17 @@ public class MiniGameManager : MonoBehaviourPun
     public static MiniGameManager Instance;
     public string[] MiniGames;
     public string MiniGameDir;
+    public bool[] IsGamePlayed;
+
+    public int curGameIdx;
+    
 
     private GameObject currentMiniGame;
 
     void Awake()
     {
         Instance = this;
+        IsGamePlayed = new bool[MiniGames.Length];
     }
 
     // 방장만 실행할 수 있는 미니게임 시작 함수
@@ -21,10 +26,44 @@ public class MiniGameManager : MonoBehaviourPun
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        int ran = Random.Range(0, MiniGames.Length);
-        string selectedGame = MiniGames[ran];
+        // 1. 아직 플레이하지 않은 게임의 인덱스(번호)들을 담을 리스트
+        List<int> availableIndices = new List<int>();
 
+        for (int i = 0; i < IsGamePlayed.Length; i++)
+        {
+            if (IsGamePlayed[i] == false) // 아직 플레이 안 했다면
+            {
+                availableIndices.Add(i);
+            }
+        }
+
+        // 2. 모든 게임을 다 플레이했는지 체크
+        if (availableIndices.Count == 0)
+        {
+            Debug.Log("모든 미니게임을 플레이했습니다!");
+            // 필요하다면 여기서 IsGamePlayed를 모두 false로 리셋하는 로직 추가
+            return;
+        }
+
+        // 3. 사용 가능한 인덱스 중 하나를 랜덤하게 선택
+        int randomIndex = Random.Range(0, availableIndices.Count);
+        int selectedGameIndex = availableIndices[randomIndex];
+
+        // 4. 선택된 게임 정보 가져오기 및 상태 변경
+        string selectedGame = MiniGames[selectedGameIndex];
+
+        // 현재 선택된 게임의 인덱스를 기록해두기
+        curGameIdx = selectedGameIndex;
+
+        Debug.Log($"선택된 게임: {selectedGame}");
+        
+        // 5. 게임 생성 (기존 함수 호출)
         SpawnMiniGameNetworked(selectedGame);
+    }
+
+    public void SetGameClear()
+    {
+        IsGamePlayed[curGameIdx] = true;
     }
 
     // TODO: 테스트하고 배포 시 지울 것

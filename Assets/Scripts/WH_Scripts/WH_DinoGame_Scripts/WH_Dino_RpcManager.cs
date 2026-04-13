@@ -4,34 +4,91 @@ using Photon.Pun;
 public class WH_Dino_RpcManager : MonoBehaviourPun
 {
     public WH_Dino_Manager gameManager;
-    private int stopCount = 0;
 
-    // ¼º°ø º¸°í (´©±º°¡ ºÎµúÈ÷¸é ÀüÃ¼ Å¬¶óÀÌ¾ğÆ®¿¡ ¼º°ø ¾Ë¸²)
+    private int stopCount = 0;
+    private bool gameEnded = false;
+
+    // ì„±ê³µ ë³´ê³ 
     public void ReportGoal()
     {
-        photonView.RPC("RPC_SyncEndGame", RpcTarget.All, true);
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
     }
 
-    // Àå¾Ö¹° Ãæµ¹ º¸°í (¹æÀå¸¸ Ä«¿îÆ® Ã¼Å©)
+    // ì¥ì• ë¬¼ ì¶©ëŒ ë³´ê³ 
     public void ReportStop()
     {
-        photonView.RPC("RPC_HandleStopCount", RpcTarget.MasterClient);
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
     }
 
     [PunRPC]
     void RPC_HandleStopCount()
     {
+        if (gameEnded) return;
+
         stopCount++;
+
         if (stopCount >= 2)
         {
-            photonView.RPC("RPC_SyncEndGame", RpcTarget.All, false);
+            photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
         }
     }
 
     [PunRPC]
     void RPC_SyncEndGame(bool isSuccess)
     {
-        if (isSuccess) gameManager.OnSuccess();
-        else gameManager.OnFailure();
+        if (gameEnded) return;
+        gameEnded = true;
+
+        if (isSuccess)
+        {
+            Debug.Log("<color=green>Dino Game Success!</color>");
+
+            if (gameManager != null)
+                gameManager.OnSuccess();
+
+            // ì¸ì¦ ë‹¨ê³„ ì‹œì‘ ì‹ í˜¸ëŠ” ë°©ì¥ë§Œ 1íšŒ ì „ì†¡
+            if (PhotonNetwork.IsMasterClient)
+            {
+                WH_RegisterManager[] regManagers =
+                    Object.FindObjectsByType<WH_RegisterManager>(FindObjectsSortMode.None);
+
+                if (regManagers != null && regManagers.Length > 0)
+                {
+                    // ë°ìŠ¤í¬íƒ‘ìš© ë§¤ë‹ˆì € ìš°ì„  ì°¾ê¸°
+                    WH_RegisterManager targetManager = null;
+
+                    foreach (var reg in regManagers)
+                    {
+                        if (reg != null && reg.isDesktop)
+                        {
+                            targetManager = reg;
+                            break;
+                        }
+                    }
+
+                    // ë°ìŠ¤í¬íƒ‘ìš©ì´ ì—†ìœ¼ë©´ ì²« ë²ˆì§¸ ë§¤ë‹ˆì € ì‚¬ìš©
+                    if (targetManager == null)
+                        targetManager = regManagers[0];
+
+                    targetManager.OnMiniGameClear();
+                    Debug.Log("<color=cyan>ì¸ì¦ ë‹¨ê³„ ì‹œì‘ RPC ì „ì†¡ ì™„ë£Œ</color>");
+                }
+                else
+                {
+                    Debug.LogError("ì”¬ì—ì„œ WH_RegisterManagerë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("<color=red>Dino Game Failure!</color>");
+
+            if (gameManager != null)
+                gameManager.OnFailure();
+        }
     }
 }

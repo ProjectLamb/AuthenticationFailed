@@ -66,6 +66,7 @@ public class JW_FlappyBird_BirdControl : MonoBehaviourPun
         Time.timeScale = 0;
         failWindow.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
+        GameManager.Instance.stageNumber = 0;
         Time.timeScale = 1;
         Destroy(flappyGame.gameObject);
     }

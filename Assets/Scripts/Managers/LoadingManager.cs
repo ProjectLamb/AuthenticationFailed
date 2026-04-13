@@ -51,12 +51,15 @@ public class LoadingManager : MonoBehaviour
     //PC 로딩화면 키기
     public void LoadingPC()
     {
+        MBLoadingCanvas.enabled = false;;
+        PCLoadingCanvas.enabled = true;
         PCLoadingPanel.SetActive(true);
         StartCoroutine("LoadingPCEnd");
     }
 
     public void LoadingMobile()
     {
+        PCLoadingCanvas.enabled = false;
         MBLoadingCanvas.enabled = true;
         MBLoadingPanel.SetActive(true);
         StartCoroutine("LoadingMBEnd");

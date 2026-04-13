@@ -46,11 +46,12 @@ public class GameManager : MonoBehaviourPun
     public void DesktopOn()
     {
         canvasDesktop.SetActive(true);
-        
+        canvasMobile.SetActive(false);
     }
 
     public void MobileOn()
     {
+        canvasDesktop.SetActive(false);
         canvasMobile.SetActive(true);
     }
 

@@ -48,15 +48,21 @@ public class UIManager : MonoBehaviourPunCallbacks
             if (p.ActorNumber == 1)
             {
                 pcStatusText.gameObject.SetActive(true);
-                LoadingManager.Instance.LoadingPC();
-                if(PhotonNetwork.LocalPlayer.ActorNumber == 1) GameManager.Instance.DesktopOn();
+                if(PhotonNetwork.LocalPlayer.ActorNumber == 1) 
+                {
+                    LoadingManager.Instance.LoadingPC();
+                    GameManager.Instance.DesktopOn();
+                }
             }
             // �� ��°�� ���� ������Դ� ActorNumber 2�� �ݴϴ� (����Ʈ��)
             else if (p.ActorNumber == 2)
             {
                 phoneStatusText.gameObject.SetActive(true);
-                LoadingManager.Instance.LoadingMobile();
-                if(PhotonNetwork.LocalPlayer.ActorNumber == 2) GameManager.Instance.MobileOn();
+                if(PhotonNetwork.LocalPlayer.ActorNumber == 2) 
+                {
+                    LoadingManager.Instance.LoadingMobile();
+                    GameManager.Instance.MobileOn();
+                }
             }
         }
     }

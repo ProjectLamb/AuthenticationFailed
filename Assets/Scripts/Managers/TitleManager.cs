@@ -13,13 +13,34 @@ public class TitleManager : MonoBehaviourPunCallbacks
     public RawImage fadePanel;
     public GameObject inputField;
     public InputField roomInputField;
+    private int playerCount = 0;
     private bool IsStart = false;
+    private bool IsAllReady = false;
 
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("마스터 서버 접속 완료! 로비로 들어갑니다.");
+        PhotonNetwork.JoinLobby(); // 로비에 들어가야 방 생성이 더 안정적입니다.
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log("새로운 플레이어 입장!");
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartGame();
+            }
+        }
+    }
+
     public void CreateCustomRoom()
     {
         if (!PhotonNetwork.IsConnectedAndReady)
@@ -56,11 +77,11 @@ public class TitleManager : MonoBehaviourPunCallbacks
 
         // 방장(MasterClient)이 씬을 로드하면 나머지 인원도 자동으로 따라가게 함
         // (단, Start 등에서 PhotonNetwork.AutomaticallySyncScene = true 설정이 되어 있어야 함)
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // "cococo"는 이동할 씬의 이름입니다.
-            PhotonNetwork.LoadLevel("carrot");
-        }
+        // if (PhotonNetwork.IsMasterClient)
+        // {
+        //     // "cococo"는 이동할 씬의 이름입니다.
+        //     PhotonNetwork.LoadLevel("carrot");
+        // }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -78,6 +99,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
         // 에러 메시지 UI 띄우기 등의 처리
     }
 
+    // 방 생성하기 눌렀을때 실행될 함수
     public void CreateRoom()
     {
         CreateCustomRoom();
@@ -88,7 +110,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
         inputField.SetActive(true);
     }
 
-    public void StartGame()
+    private void StartGame()
     {
         if (!IsStart)
         {
@@ -102,6 +124,10 @@ public class TitleManager : MonoBehaviourPunCallbacks
         fadePanel.gameObject.SetActive(true);
         fadePanel.DOFade(1f, 1f);
         yield return new WaitForSeconds(1f);
-        CreateRoom();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // "cococo"는 이동할 씬의 이름입니다.
+            PhotonNetwork.LoadLevel("carrot");
+        }
     }
 }

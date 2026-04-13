@@ -59,4 +59,9 @@ public class GameManager : MonoBehaviourPun
     {
         miniGameManager.StartRandomMiniGame();
     }
+
+    public void ClearMiniGame()
+    {
+        miniGameManager.SetGameClear();
+    }
 }

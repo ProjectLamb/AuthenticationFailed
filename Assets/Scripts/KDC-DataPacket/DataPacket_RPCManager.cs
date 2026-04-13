@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 
-public class PingPong_RpcManager : MonoBehaviourPun
+public class DataPacket_RpcManager : MonoBehaviourPunCallbacks
 {
-    public static PingPong_RpcManager instance;
+    public static DataPacket_RpcManager instance;
 
     [Header("UI 연결")]
-    public TextMeshPro comboText;
+    public TextMeshPro p1ScoreText;
+    public TextMeshPro p2ScoreText;
     public TextMeshPro timerText;
     public TextMeshPro centerText;
 
@@ -18,21 +20,26 @@ public class PingPong_RpcManager : MonoBehaviourPun
 
     [Header("2단계: 조작법 UI (Control)")]
     public GameObject controlsPanel;
-    public GameObject controlConfirmBtn;   // 새로 추가: 조작법의 '확인' 버튼
-    public GameObject controlWaitingText;  // 새로 추가: 조작법의 "상대방 대기 중..." 텍스트
+    public GameObject controlConfirmBtn;
+    public GameObject controlWaitingText;
 
     [Header("게임 설정")]
-    public int targetCombo = 30;
-    private int currentCombo = 0;
-    private float timeRemaining = 40f;
+    public int targetScore = 6;
+    private int p1Score = 0;
+    private int p2Score = 0;
     public bool isGameOver = false;
-    public bool isGameStarted = false;
+    public bool isGameStarted = false; // 🚨 실제 게임 시작 여부
 
-    // 레디 상태 체크용
+    [Header("페이즈")]
+    public int currentPhase = 1;
+
+    [Header("멀티 설정")]
+    public DataPacket_Player p2Player;
+    private float timeRemaining = 30f;
+
+    // 동기화용 변수
     private bool p1Ready = false;
     private bool p2Ready = false;
-
-    // 조작법 확인 상태 체크용 (새로 추가)
     private bool p1Confirm = false;
     private bool p2Confirm = false;
 
@@ -40,10 +47,10 @@ public class PingPong_RpcManager : MonoBehaviourPun
 
     void Start()
     {
+        // 초기 UI 상태 세팅
         isGameStarted = false;
         isGameOver = false;
-
-        // 1단계 UI 켜고 2단계 UI 끄기
+        transform.localPosition = Vector3.zero;
         if (readyPanel != null) readyPanel.SetActive(true);
         if (readyButton != null) readyButton.SetActive(true);
         if (waitingText != null) waitingText.SetActive(false);
@@ -52,12 +59,19 @@ public class PingPong_RpcManager : MonoBehaviourPun
         if (controlConfirmBtn != null) controlConfirmBtn.SetActive(true);
         if (controlWaitingText != null) controlWaitingText.SetActive(false);
 
+        bool isMulti = PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.PlayerCount >= 2;
+        timeRemaining = isMulti ? 60f : 30f;
+
+        if (!isMulti && p2ScoreText != null)
+            p2ScoreText.gameObject.SetActive(false);
+
         UpdateUI();
         if (centerText != null) centerText.text = "";
     }
 
     void Update()
     {
+        // 🚨 조작법까지 확인 완료되어야 타이머가 흐릅니다.
         if (!isGameStarted || isGameOver) return;
 
         if (timeRemaining > 0)
@@ -66,14 +80,12 @@ public class PingPong_RpcManager : MonoBehaviourPun
             UpdateTimerUI();
 
             if (PhotonNetwork.IsMasterClient && timeRemaining <= 0)
-            {
                 photonView.RPC("RpcGameOver", RpcTarget.All, false);
-            }
         }
     }
 
     // =======================================================
-    // [1단계] Ready 버튼 로직
+    // [1단계] Ready 버튼 (양쪽 확인)
     // =======================================================
     public void OnClickReadyButton()
     {
@@ -93,26 +105,22 @@ public class PingPong_RpcManager : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             if ((p1Ready && p2Ready) || PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
                 photonView.RPC("RpcShowControls", RpcTarget.AllBuffered);
-            }
         }
     }
 
     [PunRPC]
     void RpcShowControls()
     {
-        // Ready 창 끄고 조작법 창 켜기
         if (readyPanel != null) readyPanel.SetActive(false);
         if (controlsPanel != null) controlsPanel.SetActive(true);
     }
 
     // =======================================================
-    // [2단계] 조작법 확인 버튼 로직 (양쪽 다 눌러야 통과)
+    // [2단계] 조작법 확인 버튼 (양쪽 확인)
     // =======================================================
     public void OnClickControlsConfirmBtn()
     {
-        // 누르면 버튼 숨기고 "대기 중..." 텍스트 띄움
         if (controlConfirmBtn != null) controlConfirmBtn.SetActive(false);
         if (controlWaitingText != null) controlWaitingText.SetActive(true);
 
@@ -126,13 +134,10 @@ public class PingPong_RpcManager : MonoBehaviourPun
         if (playerId == 1) p1Confirm = true;
         if (playerId == 2) p2Confirm = true;
 
-        // 방장이 체크: 둘 다 조작법 확인을 눌렀는가?
         if (PhotonNetwork.IsMasterClient)
         {
             if ((p1Confirm && p2Confirm) || PhotonNetwork.CurrentRoom.PlayerCount == 1)
-            {
                 photonView.RPC("RpcStartActualGame", RpcTarget.AllBuffered);
-            }
         }
     }
 
@@ -140,39 +145,66 @@ public class PingPong_RpcManager : MonoBehaviourPun
     void RpcStartActualGame()
     {
         if (controlsPanel != null) controlsPanel.SetActive(false);
-
-        isGameStarted = true;
-
-        PingPongBall ball = FindObjectOfType<PingPongBall>();
-        if (ball != null) ball.ResetBall();
-
-        Debug.Log("양쪽 모두 확인 완료! 게임 진짜 시작!");
+        isGameStarted = true; // 🚀 여기서부터 Update의 타이머가 움직입니다.
+        Debug.Log("DataPacket 게임 시작!");
     }
 
     // =======================================================
-    // [게임 로직]
+    // [기존 로직] 점수 및 페이즈 관리
     // =======================================================
-    public void AddCombo()
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (!PhotonNetwork.IsMasterClient || !isGameStarted) return;
-        currentCombo++;
-        photonView.RPC("RpcSyncCombo", RpcTarget.All, currentCombo);
-        if (currentCombo >= targetCombo) photonView.RPC("RpcGameOver", RpcTarget.All, true);
+        if (PhotonNetwork.IsMasterClient && p2Player != null)
+            p2Player.photonView.TransferOwnership(newPlayer);
     }
 
-    public void ResetCombo()
+    public void AddScore(int id)
     {
         if (!PhotonNetwork.IsMasterClient || !isGameStarted) return;
-        currentCombo = 0;
-        photonView.RPC("RpcSyncCombo", RpcTarget.All, currentCombo);
+
+        p1Score++;
+        photonView.RPC("RpcSyncScore", RpcTarget.All, p1Score);
+
+        if (p1Score >= targetScore)
+        {
+            bool isMulti = PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.PlayerCount >= 2;
+            if (isMulti) photonView.RPC("RpcStartPhase2", RpcTarget.All);
+            else photonView.RPC("RpcGameOver", RpcTarget.All, true);
+        }
+    }
+
+    public void AddScoreP2(int id)
+    {
+        if (!PhotonNetwork.IsMasterClient || !isGameStarted) return;
+
+        p2Score++;
+        photonView.RPC("RpcSyncScoreP2", RpcTarget.All, p2Score);
+
+        if (p2Score >= targetScore)
+            photonView.RPC("RpcGameOver", RpcTarget.All, true);
     }
 
     [PunRPC]
-    void RpcSyncCombo(int syncedCombo)
+    void RpcSyncScore(int score) { p1Score = score; UpdateScoreUI(); }
+
+    [PunRPC]
+    void RpcSyncScoreP2(int score) { p2Score = score; UpdateScoreUI(); }
+
+    [PunRPC]
+    void RpcStartPhase2()
     {
-        currentCombo = syncedCombo;
-        UpdateComboUI();
+        currentPhase = 2;
+        p2Score = 0;
+        if (centerText != null) centerText.text = "PHASE 2!";
+        Invoke("ClearCenterText", 2f);
+
+        if (p2Player != null)
+            p2Player.transform.localPosition = new Vector3(0.4f, p2Player.transform.localPosition.y, 0);
+
+        UpdateUI();
     }
+
+    void ClearCenterText() { if (centerText != null) centerText.text = ""; }
 
     [PunRPC]
     void RpcGameOver(bool isClear)
@@ -181,15 +213,15 @@ public class PingPong_RpcManager : MonoBehaviourPun
         isGameStarted = false;
         timeRemaining = 0;
         UpdateTimerUI();
-
-        if (isClear) { if (comboText != null) comboText.text = "CLEAR!!"; }
-        else { if (comboText != null) comboText.text = "GAME OVER"; }
-
-        PingPongBall ball = FindObjectOfType<PingPongBall>();
-        if (ball != null) ball.StopBall();
+        if (centerText != null)
+            centerText.text = isClear ? "MISSION CLEAR!!" : "GAME OVER";
     }
 
     void UpdateTimerUI() { if (timerText != null) timerText.text = "Time : " + Mathf.CeilToInt(Mathf.Max(0, timeRemaining)).ToString(); }
-    void UpdateComboUI() { if (comboText != null && !isGameOver) comboText.text = "Combo : " + currentCombo; }
-    void UpdateUI() { UpdateTimerUI(); UpdateComboUI(); }
+    void UpdateScoreUI()
+    {
+        if (p1ScoreText != null) p1ScoreText.text = "Score : " + p1Score + " / " + targetScore;
+        if (p2ScoreText != null) p2ScoreText.text = "Score : " + p2Score + " / " + targetScore;
+    }
+    void UpdateUI() { UpdateTimerUI(); UpdateScoreUI(); }
 }

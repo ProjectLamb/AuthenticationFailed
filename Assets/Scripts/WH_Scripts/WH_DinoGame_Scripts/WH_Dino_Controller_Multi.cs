@@ -11,23 +11,25 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
     private bool isGrounded;
     [HideInInspector] public bool isMoving = true;
 
+    private bool hasReportedStop = false;
+    private bool hasReportedGoal = false;
+    private WH_Dino_RpcManager rpcManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // µπˆ±◊: ≥ª∞° ¿Ã ∞¯∑Ê¿« ¡÷¿Œ¿Œ¡ˆ »Æ¿Œ
-        Debug.Log($"{gameObject.name} º“¿Ø±« ø©∫Œ: {photonView.IsMine}");
+        rpcManager = FindObjectOfType<WH_Dino_RpcManager>();
+
+        Debug.Log($"{gameObject.name} ÏÜåÏú†Í∂å Ïó¨Î∂Ä: {photonView.IsMine}");
     }
 
     void Update()
     {
-        // [πÊæÓ ƒ⁄µÂ 1] ≥ª º“¿Ø∞° æ∆¥œ∏È ¿˝¥Î ¡∂¿€ ∫“∞°
         if (!photonView.IsMine || !isMoving) return;
 
-        // [πÊæÓ ƒ⁄µÂ 2] πÊ¿Â¿∫ P1∏∏, ¬¸∞°¿⁄¥¬ P2∏∏ ¡∂¿€ ∞°¥…«œµµ∑œ «— π¯ ¥ı ¿·±›
         if (PhotonNetwork.IsMasterClient && isP2) return;
         if (!PhotonNetwork.IsMasterClient && !isP2) return;
 
-        // ¿Ãµø π◊ ¡°«¡
         float direction = isP2 ? -1f : 1f;
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
 
@@ -35,25 +37,41 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
-            Debug.Log($"{gameObject.name} ¡°«¡ Ω««‡!");
+            Debug.Log($"{gameObject.name} Ï†êÌîÑ Ïã§Ìñâ!");
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("WH_Ground")) isGrounded = true;
+        if (collision.gameObject.CompareTag("WH_Ground"))
+        {
+            isGrounded = true;
+            return;
+        }
+
         if (!photonView.IsMine) return;
 
-        if (collision.gameObject.CompareTag("WH_Obstacle")) HandleObstacleCollision(collision.transform);
+        if (collision.gameObject.CompareTag("WH_Obstacle"))
+        {
+            if (hasReportedStop) return;
+            HandleObstacleCollision(collision.transform);
+            return;
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (hasReportedGoal) return;
+
+            hasReportedGoal = true;
             StopDino();
-            FindObjectOfType<WH_Dino_RpcManager>()?.ReportGoal();
+            rpcManager?.ReportGoal();
         }
     }
 
     private void HandleObstacleCollision(Transform obstacleTrans)
     {
+        hasReportedStop = true;
+
         isMoving = false;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
@@ -61,9 +79,10 @@ public class WH_Dino_Controller_Multi : MonoBehaviourPun
 
         string pointName = isP2 ? "P2_Point" : "P1_Point";
         Transform snapPoint = obstacleTrans.Find(pointName);
-        if (snapPoint != null) transform.position = snapPoint.position;
+        if (snapPoint != null)
+            transform.position = snapPoint.position;
 
-        FindObjectOfType<WH_Dino_RpcManager>()?.ReportStop();
+        rpcManager?.ReportStop();
     }
 
     public void StopDino()

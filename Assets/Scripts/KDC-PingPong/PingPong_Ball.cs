@@ -1,119 +1,108 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using DG.Tweening; // 🚨 DOTween 필수!
 
-public class PingPongBall : MonoBehaviourPun, IPunObservable
+public class PingPongBall : MonoBehaviourPun
 {
-    public float speed = 5f;
-    public float lerpSpeed = 20f;
+    public float speed = 5f; // DOTween으로 바뀌면서 체감 속도가 다를 수 있으니 조절해보세요!
 
-    private Vector2 direction;
-    private bool isStopped = false;
+    private Vector2 currentDirection;
+    private bool isStopped = true;
     private PingPong_RpcManager rpcManager;
     private Renderer ballRenderer;
 
-    private Vector3 targetLocalPos;
+    private Tween moveTween; // DOTween 제어용 변수
 
     void Start()
     {
         rpcManager = FindObjectOfType<PingPong_RpcManager>();
-        targetLocalPos = transform.localPosition;
         ballRenderer = GetComponent<Renderer>();
-
-        if (PhotonNetwork.IsMasterClient)
-            StartCoroutine(RespawnRoutine());
     }
 
-    void Update()
+    // 🎯 RpcManager가 조작법 확인 후 부르는 함수
+    public void ResetBall()
     {
-        if (isStopped) return;
+        isStopped = false;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            // 마스터는 평소대로 공을 이동시킵니다.
-            transform.localPosition += (Vector3)(direction * speed * Time.deltaTime);
+            StartCoroutine(RespawnRoutine());
         }
-        else
-        {
-            // [수정된 부분 1: 클라이언트 예측]
-            // 클라이언트도 서버가 패킷을 안 보낼 때 가만히 있는 게 아니라, 공의 방향과 속도를 바탕으로 스스로 이동합니다!
-            targetLocalPos += (Vector3)(direction * speed * Time.deltaTime);
+    }
 
-            // 실제 공은 그 예측된 목표 위치를 부드럽게 따라갑니다. (잔렉 해결의 핵심)
-            transform.localPosition = Vector3.Lerp(transform.localPosition, targetLocalPos, lerpSpeed * Time.deltaTime);
-        }
+    // ❌ Update 함수 완전 삭제! (DOTween이 알아서 움직여줌)
+    // ❌ OnPhotonSerializeView 함수 완전 삭제! (실시간 동기화 필요 없음)
+
+    // 🎯 마스터 클라이언트가 공의 도착 지점을 계산해서 모두에게 쏘는 함수
+    private void CalculateAndShoot(Vector3 startPos, Vector2 dir)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        currentDirection = dir.normalized;
+        // 현재 위치에서 방향을 따라 아주 멀리 있는 목적지 계산
+        Vector3 targetPos = startPos + (Vector3)(currentDirection * 50f);
+        float duration = 50f / speed; // 시간 = 거리 / 속력
+
+        // 양쪽 모두에게 시작점, 끝점, 걸리는 시간을 보냄
+        photonView.RPC("RpcMoveBall", RpcTarget.All, startPos, targetPos, duration, currentDirection.x, currentDirection.y);
+    }
+
+    [PunRPC]
+    void RpcMoveBall(Vector3 startPos, Vector3 targetPos, float duration, float dirX, float dirY)
+    {
+        currentDirection = new Vector2(dirX, dirY);
+        if (ballRenderer != null) ballRenderer.enabled = true;
+
+        // 기존에 움직이던 트윈 정지 및 위치 강제 동기화 (오차 교정)
+        moveTween?.Kill();
+        transform.localPosition = startPos;
+
+        // DOTween으로 이동 시작 (등속도 이동)
+        moveTween = transform.DOLocalMove(targetPos, duration).SetEase(Ease.Linear);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (isStopped) return;
         if (!PhotonNetwork.IsMasterClient) return;
-        if (direction == Vector2.zero) return;
+        if (currentDirection == Vector2.zero) return;
 
         if (other.CompareTag("Player"))
         {
             float contactSide = (transform.position.x < other.transform.position.x) ? -1f : 1f;
-            if (Mathf.Sign(direction.x) == Mathf.Sign(contactSide)) return;
+            if (Mathf.Sign(currentDirection.x) == Mathf.Sign(contactSide)) return;
 
-            // 1. 공이 패들의 어느 위치에 맞았는지 비율을 계산합니다.
-            // (결과값 -> 패들 맨 위: 1, 정중앙: 0, 패들 맨 아래: -1)
+            // 형님이 짜두신 정교한 반사각 + 랜덤성 로직 그대로 유지!
             float yOffset = transform.position.y - other.transform.position.y;
             float hitFactor = yOffset / other.bounds.extents.y;
-
-            // 2. 약간의 난수(랜덤값)를 더해서 매번 똑같이 튕기는 걸 방지합니다.
             float randomness = Random.Range(-0.15f, 0.15f);
 
-            // 3. X축 방향을 뒤집고, Y축 방향은 맞은 위치(+랜덤값)에 비례하게 꺾어줍니다.
-            // 곱하는 숫자(예: 1.5f)를 키우면 모서리에 맞았을 때 더 미친 듯이 예리하게 꺾입니다.
-            Vector2 newDirection = new Vector2(contactSide, (hitFactor + randomness) * 1.5f);
-
-            // 4. normalized를 해줘야 꺾이는 각도와 상관없이 공의 '스피드'가 일정하게 유지됩니다.
-            direction = newDirection.normalized;
+            Vector2 newDirection = new Vector2(contactSide, (hitFactor + randomness) * 1.5f).normalized;
 
             if (rpcManager != null) rpcManager.AddCombo();
+
+            // 부딪힌 현재 위치에서 새로운 방향으로 다시 쏨
+            CalculateAndShoot(transform.localPosition, newDirection);
         }
         else if (other.CompareTag("Wall"))
         {
-            if (other.bounds.size.y > other.bounds.size.x)
+            if (other.bounds.size.y > other.bounds.size.x) // 좌우 벽 (게임 오버/점수 로직)
             {
-                direction = Vector2.zero;
                 if (rpcManager != null) rpcManager.ResetCombo();
                 StartCoroutine(RespawnRoutine());
             }
-            else
+            else // 상하 벽 (일반 바운스)
             {
-                // 위아래 벽에 부딪힐 때도 약간의 불규칙성을 주려면 아래처럼 할 수 있습니다. (선택사항)
-                direction.y *= -1f;
-                // 벽에 튕길 때도 약간 각도를 틀고 싶다면 아래 주석을 푸세요!
-                // direction.x += Random.Range(-0.1f, 0.1f); 
-                // direction = direction.normalized;
+                Vector2 newDirection = currentDirection;
+                newDirection.y *= -1f; // y축만 반전
+
+                // 부딪힌 위치에서 튕긴 방향으로 다시 쏨
+                CalculateAndShoot(transform.localPosition, newDirection);
             }
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            // 마스터: 위치, 방향에 이어 '현재 속도(speed)'까지 묶어서 보냅니다.
-            stream.SendNext(transform.localPosition);
-            stream.SendNext(direction);
-            
-        }
-        else
-        {
-            // 클라이언트: 위치, 방향, '속도'를 차례대로 받습니다.
-            Vector3 networkPosition = (Vector3)stream.ReceiveNext();
-            direction = (Vector2)stream.ReceiveNext();
-            
-
-            // [네트워크 지연 보상] 받은 속도를 바탕으로 오차를 완벽하게 계산합니다.
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-            targetLocalPos = networkPosition + (Vector3)(direction * speed * lag);
-        }
-    }
-
-    // --- 아래는 기존과 동일한 리스폰 관련 함수들 ---
     IEnumerator RespawnRoutine()
     {
         photonView.RPC("RpcRespawnStart", RpcTarget.All);
@@ -124,38 +113,30 @@ public class PingPongBall : MonoBehaviourPun, IPunObservable
         float randomY = Random.Range(-0.5f, 0.5f);
         Vector2 newDir = new Vector2(randomX, randomY).normalized;
 
-        photonView.RPC("RpcRespawnEnd", RpcTarget.All, newDir.x, newDir.y);
+        // 원점(0,0,0)에서 새로운 방향으로 발사
+        CalculateAndShoot(Vector3.zero, newDir);
     }
 
     [PunRPC]
     void RpcRespawnStart()
     {
-        direction = Vector2.zero;
+        moveTween?.Kill(); // 움직임 멈춤
+        currentDirection = Vector2.zero;
         if (ballRenderer != null) ballRenderer.enabled = false;
         transform.localPosition = new Vector3(100f, 100f, 0f);
-        targetLocalPos = new Vector3(100f, 100f, 0f);
-    }
-
-    [PunRPC]
-    void RpcRespawnEnd(float dx, float dy)
-    {
-        transform.localPosition = Vector3.zero;
-        targetLocalPos = Vector3.zero;
-        direction = new Vector2(dx, dy);
-        if (ballRenderer != null) ballRenderer.enabled = true;
     }
 
     public void StopBall()
     {
         isStopped = true;
-        direction = Vector2.zero;
-        photonView.RPC("RpcStopBall", RpcTarget.Others);
+        photonView.RPC("RpcStopBall", RpcTarget.All);
     }
 
     [PunRPC]
     void RpcStopBall()
     {
         isStopped = true;
-        direction = Vector2.zero;
+        moveTween?.Kill();
+        currentDirection = Vector2.zero;
     }
 }

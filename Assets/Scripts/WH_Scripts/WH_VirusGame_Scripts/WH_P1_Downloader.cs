@@ -5,8 +5,8 @@ public class WH_P1_Downloader : MonoBehaviour
 {
     public Slider downloadSlider;
     public WH_RpcManager rpcManager;
-    public float decayRate = 0.5f;
-    public float boostAmount = 3.0f;
+    public float decayRate = 6.0f;
+    public float boostAmount = 2.0f;
 
     [SerializeField] private float currentProgress = 0f;
 

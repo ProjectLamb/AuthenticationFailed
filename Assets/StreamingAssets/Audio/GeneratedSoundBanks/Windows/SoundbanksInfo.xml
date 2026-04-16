@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{94319C8B-4284-E990-1723-9EEBE47883AD}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+			<GameParameters>
+				<GameParameter Id="1332111125" Name="A6_P1_Button_Progress"/>
+				<GameParameter Id="2647547107" Name="GameWinorLose"/>
+				<GameParameter Id="3212254129" Name="BallMovement"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="777429653" Name="GameStates">
+					<States>
+						<State Id="89505537" Name="GamePlay"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1886858604" Name="A6"/>
+						<State Id="3604647259" Name="MainMenu"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="2917426583" Name="A6_Button">
+					<Switches/>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="1886858604" Type="User" Language="SFX" Hash="{422DFE29-BCC8-76B3-6C27-11FCEFFE8502}">
+			<ShortName>A6</ShortName>
+			<Path>A6.bnk</Path>
+			<Media>
+				<File Id="2171178" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_10_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_10_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="45990542" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_04_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_04_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="106379923" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_02_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_02_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="126115911" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_03_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_03_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="169164492" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_03_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_03_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="190122853" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_09_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_09_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="216427693" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_06_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_06_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="275445553" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_02_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_02_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="287548996" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_07_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_07_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="517854512" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_05_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_05_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="622538682" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_06_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_06_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="629368154" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_08_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_08_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="646369119" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_07_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_07_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="683836871" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_01_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_01_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="706473155" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_05_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_05_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="809007770" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_P1Button_04_Stereo_OneShot_v2.wav</ShortName>
+					<CachePath>SFX/A6_P1Button_04_Stereo_OneShot_v2_818F3B66.wem</CachePath>
+				</File>
+				<File Id="949846784" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_08_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_08_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="993962069" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Vaccine_Obtain_01_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/A6_Vaccine_Obtain_01_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="403817751" Name="A6Lose" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="777429653" Id="89505537" Name="GamePlay"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2246559320" Name="A6Start" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="777429653" Id="1886858604" Name="A6"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="1372143466" Name="A6VaccineObtain" DurationType="OneShot" DurationMin="1.8461459" DurationMax="1.8461666">
+					<MediaRefs>
+						<MediaRef Id="2171178"/>
+						<MediaRef Id="45990542"/>
+						<MediaRef Id="126115911"/>
+						<MediaRef Id="190122853"/>
+						<MediaRef Id="275445553"/>
+						<MediaRef Id="287548996"/>
+						<MediaRef Id="622538682"/>
+						<MediaRef Id="706473155"/>
+						<MediaRef Id="949846784"/>
+						<MediaRef Id="993962069"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="281571150" Name="A6Win" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="777429653" Id="89505537" Name="GamePlay"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2613500480" Name="P1Button" DurationType="OneShot" DurationMin="2" DurationMax="2">
+					<MediaRefs>
+						<MediaRef Id="106379923"/>
+						<MediaRef Id="169164492"/>
+						<MediaRef Id="216427693"/>
+						<MediaRef Id="517854512"/>
+						<MediaRef Id="629368154"/>
+						<MediaRef Id="646369119"/>
+						<MediaRef Id="683836871"/>
+						<MediaRef Id="809007770"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="1332111125" Name="A6_P1_Button_Progress"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="777429653" Name="GameStates">
+					<States>
+						<State Id="89505537" Name="GamePlay"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1886858604" Name="A6"/>
+						<State Id="3604647259" Name="MainMenu"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{871B4421-65FB-D2CF-1B9C-E9D8268E10D8}">
+			<ShortName>MainBank</ShortName>
+			<Path>MainBank.bnk</Path>
+			<Media>
+				<File Id="17639544" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Main_Theme_Body_Draft_01.wav</ShortName>
+					<CachePath>SFX/Main_Theme_Body_Draft_01_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="72102868" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Game_Play_v1.wav</ShortName>
+					<CachePath>SFX/A6_Game_Play_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="223882852" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClick_04_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClick_04_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="244312807" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClick_01_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClick_01_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="283107029" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Main_Theme_Intro_Draft_01.wav</ShortName>
+					<CachePath>SFX/Main_Theme_Intro_Draft_01_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="289316840" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GamePlay_Variation_v2.wav</ShortName>
+					<CachePath>SFX/GamePlay_Variation_v2_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="367471324" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainToGame_Transition_v1.wav</ShortName>
+					<CachePath>SFX/MainToGame_Transition_v1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="502790161" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClick_03_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClick_03_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="659459801" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClick_05_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClick_05_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="692304433" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Game_Play_Winning.wav</ShortName>
+					<CachePath>SFX/A6_Game_Play_Winning_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="767553383" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Game_Play_Losing.wav</ShortName>
+					<CachePath>SFX/A6_Game_Play_Losing_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="810836783" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClickP2_01_Stereo_OneShot_v3_Fixed.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClickP2_01_Stereo_OneShot_v3_Fixed_818F3B66.wem</CachePath>
+				</File>
+				<File Id="977635800" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A6_Game_Play_Transition.wav</ShortName>
+					<CachePath>SFX/A6_Game_Play_Transition_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1011473247" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MainMenu_UiClick_02_Stereo_OneShot_v1.wav</ShortName>
+					<CachePath>SFX/MainMenu_UiClick_02_Stereo_OneShot_v1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1056328879" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GamePlay_Demo_v1.wav</ShortName>
+					<CachePath>SFX/GamePlay_Demo_v1_FBC78EF0.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="2275179450" Name="GamePlayMusic" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="777429653" Id="89505537" Name="GamePlay"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="1991862712" Name="MainMenuMusic" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="777429653" Id="3604647259" Name="MainMenu"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2865704433" Name="MuaicCue" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="367471324"/>
+						<MediaRef Id="692304433"/>
+						<MediaRef Id="767553383"/>
+						<MediaRef Id="977635800"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="777429653" Id="89505537"/>
+							<MediaRefs>
+								<MediaRef Id="289316840"/>
+								<MediaRef Id="1056328879"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="777429653" Id="3604647259"/>
+							<MediaRefs>
+								<MediaRef Id="17639544"/>
+								<MediaRef Id="283107029"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="777429653" Id="1886858604"/>
+							<MediaRefs>
+								<MediaRef Id="72102868"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1230509338" Name="P1UiClick" DurationType="OneShot" DurationMin="0.5" DurationMax="0.5">
+					<MediaRefs>
+						<MediaRef Id="223882852"/>
+						<MediaRef Id="244312807"/>
+						<MediaRef Id="502790161"/>
+						<MediaRef Id="659459801"/>
+						<MediaRef Id="1011473247"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2258743767" Name="P2UiClick" DurationType="OneShot" DurationMin="0.5" DurationMax="0.5">
+					<MediaRefs>
+						<MediaRef Id="810836783"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="2647547107" Name="GameWinorLose"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="777429653" Name="GameStates">
+					<States>
+						<State Id="89505537" Name="GamePlay"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1886858604" Name="A6"/>
+						<State Id="3604647259" Name="MainMenu"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+		<SoundBank Id="3714668367" Type="User" Language="SFX" Hash="{DBD9024A-C6FD-3B04-237E-25E7ADCDD89E}">
+			<ShortName>VoiceChat</ShortName>
+			<Path>VoiceChat.bnk</Path>
+			<Plugins>
+				<Custom>
+					<Plugin Id="312390273" Name="Audio Input" LibName="Wwise Audio Input" LibId="13107202"/>
+				</Custom>
+			</Plugins>
+			<Events>
+				<Event Id="47937584" Name="PlayerVoice" DurationType="Unknown">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="312390273"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{8A17E3EF-FA85-2E63-82BA-605C462105BA}</FileHash>
+</SoundBanksInfo>

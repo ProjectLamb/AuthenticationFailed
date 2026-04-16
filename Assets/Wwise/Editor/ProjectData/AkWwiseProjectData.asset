@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: ab8520bcefcb574ba8c25a6c2e41db37
     GuidInternal: 
-    m_lastTime: -8584266318858761833
+    m_lastTime: -8584253493942352487
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: d31974a022525340a2459008ebc78d39
     GuidInternal: 
-    m_lastTime: -8584266318858671719
+    m_lastTime: -8584253493930316492
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -66,11 +66,11 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 47c34ec827900b489413f9684e06fd3e
     GuidInternal: 
-    m_lastTime: -8584266318858671719
+    m_lastTime: -8584253493929771608
     List:
-    - name: Test
-      guid: 1a60ec39f787dc4499b1bfa521f90575
-      id: 3157003241
+    - name: A6
+      guid: b2e6bd8b0f43c744843fb499c0ab1559
+      id: 1886858604
       PathAndIcons:
       - ElementName: SoundBanks
         ObjectType: 5
@@ -78,11 +78,137 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 47c34ec827900b489413f9684e06fd3e
-      - ElementName: Test
+      - ElementName: A6
+        ObjectType: 7
+        guid: b2e6bd8b0f43c744843fb499c0ab1559
+      Path: SoundBanks\Default Work Unit\A6
+    - name: MainBank
+      guid: 3756fa7489ad8e42b9a3e5010e9e224c
+      id: 2880737896
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 47c34ec827900b489413f9684e06fd3e
+      - ElementName: MainBank
+        ObjectType: 7
+        guid: 3756fa7489ad8e42b9a3e5010e9e224c
+      Path: SoundBanks\Default Work Unit\MainBank
+    - name: VoiceChat
+      guid: 1a60ec39f787dc4499b1bfa521f90575
+      id: 3714668367
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 47c34ec827900b489413f9684e06fd3e
+      - ElementName: VoiceChat
         ObjectType: 7
         guid: 1a60ec39f787dc4499b1bfa521f90575
-      Path: SoundBanks\Default Work Unit\Test
+      Path: SoundBanks\Default Work Unit\VoiceChat
   EventWwu:
+  - PhysicalPath: Events\A6.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: A6
+      ObjectType: 12
+      guid: 6348d78455534f4ea87b6e5e10bbbabe
+    ParentPath: Events\A6
+    guid: 6348d78455534f4ea87b6e5e10bbbabe
+    GuidInternal: 
+    m_lastTime: -8584253493929842584
+    List:
+    - name: A6Lose
+      guid: f1512bd21b14d0468ce907e441246837
+      id: 403817751
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 6348d78455534f4ea87b6e5e10bbbabe
+      - ElementName: A6Lose
+        ObjectType: 3
+        guid: f1512bd21b14d0468ce907e441246837
+      Path: Events\A6\A6Lose
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: A6Start
+      guid: cb5d5f02d4179748ad622e8a8b305f74
+      id: 2246559320
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 6348d78455534f4ea87b6e5e10bbbabe
+      - ElementName: A6Start
+        ObjectType: 3
+        guid: cb5d5f02d4179748ad622e8a8b305f74
+      Path: Events\A6\A6Start
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: A6VaccineObtain
+      guid: 5c41923b10e6f1499a3a8ce5ee3a4586
+      id: 1372143466
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 6348d78455534f4ea87b6e5e10bbbabe
+      - ElementName: A6VaccineObtain
+        ObjectType: 3
+        guid: 5c41923b10e6f1499a3a8ce5ee3a4586
+      Path: Events\A6\A6VaccineObtain
+      maxAttenuation: 0
+      maxDuration: 1.8461666
+      minDuration: 1.8461459
+    - name: A6Win
+      guid: d5b1699852cab74e9e807a54088b7cb9
+      id: 281571150
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 6348d78455534f4ea87b6e5e10bbbabe
+      - ElementName: A6Win
+        ObjectType: 3
+        guid: d5b1699852cab74e9e807a54088b7cb9
+      Path: Events\A6\A6Win
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: P1Button
+      guid: 567366338d8c314a930dda2768940db7
+      id: 2613500480
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 6348d78455534f4ea87b6e5e10bbbabe
+      - ElementName: P1Button
+        ObjectType: 3
+        guid: 567366338d8c314a930dda2768940db7
+      Path: Events\A6\P1Button
+      maxAttenuation: 0
+      maxDuration: 2
+      minDuration: 2
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -94,43 +220,191 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 32d741fa6ae83a42aa3f8e806f706175
     GuidInternal: 
-    m_lastTime: -8584266318858692015
+    m_lastTime: -8584253493929904368
+    List: []
+  - PhysicalPath: Events\MAIN.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: MAIN
+      ObjectType: 12
+      guid: 296147061681ac49bc2a3a0b9e243f57
+    ParentPath: Events\MAIN
+    guid: 296147061681ac49bc2a3a0b9e243f57
+    GuidInternal: 
+    m_lastTime: -8584253493929878982
     List:
-    - name: test
-      guid: 82b28994a3ef584da926d93fa0926311
-      id: 3157003241
+    - name: GamePlayMusic
+      guid: 2f35f163a80d514f8eae5363f18e9d73
+      id: 2275179450
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
         guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
+      - ElementName: MAIN
         ObjectType: 12
-        guid: 32d741fa6ae83a42aa3f8e806f706175
-      - ElementName: test
+        guid: 296147061681ac49bc2a3a0b9e243f57
+      - ElementName: GamePlayMusic
         ObjectType: 3
-        guid: 82b28994a3ef584da926d93fa0926311
-      Path: Events\Default Work Unit\test
+        guid: 2f35f163a80d514f8eae5363f18e9d73
+      Path: Events\MAIN\GamePlayMusic
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: test2
-      guid: f626129177f7df4fb88e0098ab94e45e
-      id: 576110585
+    - name: MainMenuMusic
+      guid: efc1cc5a10ca4c4c90e1c290599afca3
+      id: 1991862712
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
         guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
+      - ElementName: MAIN
         ObjectType: 12
-        guid: 32d741fa6ae83a42aa3f8e806f706175
-      - ElementName: test2
+        guid: 296147061681ac49bc2a3a0b9e243f57
+      - ElementName: MainMenuMusic
         ObjectType: 3
-        guid: f626129177f7df4fb88e0098ab94e45e
-      Path: Events\Default Work Unit\test2
+        guid: efc1cc5a10ca4c4c90e1c290599afca3
+      Path: Events\MAIN\MainMenuMusic
       maxAttenuation: 0
-      maxDuration: 55.05002
-      minDuration: 55.05002
+      maxDuration: 0
+      minDuration: 0
+    - name: MuaicCue
+      guid: 866c9dcda718364b8ca99e7facbfe6e3
+      id: 2865704433
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MAIN
+        ObjectType: 12
+        guid: 296147061681ac49bc2a3a0b9e243f57
+      - ElementName: MuaicCue
+        ObjectType: 3
+        guid: 866c9dcda718364b8ca99e7facbfe6e3
+      Path: Events\MAIN\MuaicCue
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: P1UiClick
+      guid: 584e2ad40df82843844a2c6c44a31b76
+      id: 1230509338
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MAIN
+        ObjectType: 12
+        guid: 296147061681ac49bc2a3a0b9e243f57
+      - ElementName: P1UiClick
+        ObjectType: 3
+        guid: 584e2ad40df82843844a2c6c44a31b76
+      Path: Events\MAIN\P1UiClick
+      maxAttenuation: 0
+      maxDuration: 0.5
+      minDuration: 0.5
+    - name: P2UiClick
+      guid: 45d903ed6e18b842871b62b328bbad8e
+      id: 2258743767
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MAIN
+        ObjectType: 12
+        guid: 296147061681ac49bc2a3a0b9e243f57
+      - ElementName: P2UiClick
+        ObjectType: 3
+        guid: 45d903ed6e18b842871b62b328bbad8e
+      Path: Events\MAIN\P2UiClick
+      maxAttenuation: 0
+      maxDuration: 0.5
+      minDuration: 0.5
+  - PhysicalPath: Events\Voice Chate Unit.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Voice Chate Unit
+      ObjectType: 12
+      guid: 55b6709029cd3b488877c761e5fbd09a
+    ParentPath: Events\Voice Chate Unit
+    guid: 55b6709029cd3b488877c761e5fbd09a
+    GuidInternal: 
+    m_lastTime: -8584253493929934840
+    List:
+    - name: PlayerVoice
+      guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      id: 47937584
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Voice Chate Unit
+        ObjectType: 12
+        guid: 55b6709029cd3b488877c761e5fbd09a
+      - ElementName: PlayerVoice
+        ObjectType: 3
+        guid: 297fcb7fa4fded4289cdc6ab0361cc73
+      Path: Events\Voice Chate Unit\PlayerVoice
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
+  - PhysicalPath: Game Parameters\A3.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: A3
+      ObjectType: 12
+      guid: ee707197ab828d4ca8c84c351e877a11
+    ParentPath: Game Parameters\A3
+    guid: ee707197ab828d4ca8c84c351e877a11
+    GuidInternal: 
+    m_lastTime: -8584253493931435806
+    List:
+    - name: BallMovement
+      guid: 01c937dd89831445a066028cecea57b2
+      id: 3212254129
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A3
+        ObjectType: 12
+        guid: ee707197ab828d4ca8c84c351e877a11
+      - ElementName: BallMovement
+        ObjectType: 13
+        guid: 01c937dd89831445a066028cecea57b2
+      Path: Game Parameters\A3\BallMovement
+  - PhysicalPath: Game Parameters\A6.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: A6
+      ObjectType: 12
+      guid: 123c9b799ac1844cbf4c0f9f5ce0e83c
+    ParentPath: Game Parameters\A6
+    guid: 123c9b799ac1844cbf4c0f9f5ce0e83c
+    GuidInternal: 
+    m_lastTime: -8584253493931410619
+    List:
+    - name: A6_P1_Button_Progress
+      guid: ece078d055d1e848bb36378b02185a03
+      id: 1332111125
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: A6
+        ObjectType: 12
+        guid: 123c9b799ac1844cbf4c0f9f5ce0e83c
+      - ElementName: A6_P1_Button_Progress
+        ObjectType: 13
+        guid: ece078d055d1e848bb36378b02185a03
+      Path: Game Parameters\A6\A6_P1_Button_Progress
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -142,8 +416,22 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3c0a4ee411369145ab270d93d5cc5627
     GuidInternal: 
-    m_lastTime: -8584266318858731919
-    List: []
+    m_lastTime: -8584253493931476707
+    List:
+    - name: GameWinorLose
+      guid: b9e4e1d8f9a9614f91e6035875cc576d
+      id: 2647547107
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3c0a4ee411369145ab270d93d5cc5627
+      - ElementName: GameWinorLose
+        ObjectType: 13
+        guid: b9e4e1d8f9a9614f91e6035875cc576d
+      Path: Game Parameters\Default Work Unit\GameWinorLose
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
@@ -156,8 +444,103 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 3ea2ae523fa4384993f0a3224223503f
     GuidInternal: 
-    m_lastTime: -8584266318858682053
+    m_lastTime: -8584253493930428592
     List: []
+  - PhysicalPath: States\MAIN.wwu
+    PathAndIcons:
+    - ElementName: States
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: MAIN
+      ObjectType: 12
+      guid: c4b4886530b7124eabf995330079d13b
+    ParentPath: States\MAIN
+    guid: c4b4886530b7124eabf995330079d13b
+    GuidInternal: 
+    m_lastTime: -8584253493930393187
+    List:
+    - name: GameStates
+      guid: 66e0724dd9a8114dadc7d22133c60c49
+      id: 777429653
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: MAIN
+        ObjectType: 12
+        guid: c4b4886530b7124eabf995330079d13b
+      - ElementName: GameStates
+        ObjectType: 9
+        guid: 66e0724dd9a8114dadc7d22133c60c49
+      Path: States\MAIN\GameStates
+      values:
+      - name: A6
+        guid: 52f0b88791a5c941ab6002d4f3e75a38
+        id: 1886858604
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: MAIN
+          ObjectType: 12
+          guid: c4b4886530b7124eabf995330079d13b
+        - ElementName: GameStates
+          ObjectType: 9
+          guid: 66e0724dd9a8114dadc7d22133c60c49
+        - ElementName: A6
+          ObjectType: 8
+          guid: 52f0b88791a5c941ab6002d4f3e75a38
+      - name: GamePlay
+        guid: e2b5d6d1ebf360429ee40baa5cd271db
+        id: 89505537
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: MAIN
+          ObjectType: 12
+          guid: c4b4886530b7124eabf995330079d13b
+        - ElementName: GameStates
+          ObjectType: 9
+          guid: 66e0724dd9a8114dadc7d22133c60c49
+        - ElementName: GamePlay
+          ObjectType: 8
+          guid: e2b5d6d1ebf360429ee40baa5cd271db
+      - name: MainMenu
+        guid: b92b9aca8b445742b394c9a13e935de3
+        id: 3604647259
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: MAIN
+          ObjectType: 12
+          guid: c4b4886530b7124eabf995330079d13b
+        - ElementName: GameStates
+          ObjectType: 9
+          guid: 66e0724dd9a8114dadc7d22133c60c49
+        - ElementName: MainMenu
+          ObjectType: 8
+          guid: b92b9aca8b445742b394c9a13e935de3
+      - name: None
+        guid: 9ce66f64dee14349966da059a304909a
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: MAIN
+          ObjectType: 12
+          guid: c4b4886530b7124eabf995330079d13b
+        - ElementName: GameStates
+          ObjectType: 9
+          guid: 66e0724dd9a8114dadc7d22133c60c49
+        - ElementName: None
+          ObjectType: 8
+          guid: 9ce66f64dee14349966da059a304909a
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     PathAndIcons:
@@ -170,7 +553,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 1eaec6ff74072743a18c38e5dd36cada
     GuidInternal: 
-    m_lastTime: -8584266318858789906
+    m_lastTime: -8584253493952594204
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -184,11 +567,11 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: e06f15d9dd8cde4297d80546b8dc51b7
     GuidInternal: 
-    m_lastTime: -8584266318858789906
+    m_lastTime: -8584253493952437573
     List: []
-  ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedFileSystemItemIds: 02000000030000000a0000000b0000001c0000001d000000
+  ExpandedWaapiItemIds: 0a0000000b0000001c0000001d000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
-  currentDataSource: 0
+  currentDataSource: 1
   CurrentPluginConfig: 

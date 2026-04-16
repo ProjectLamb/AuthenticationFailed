@@ -127,7 +127,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             // "cococo"는 이동할 씬의 이름입니다.
-            PhotonNetwork.LoadLevel("carrot");
+            PhotonNetwork.LoadLevel("WH");
         }
     }
 }

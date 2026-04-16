@@ -1,0 +1,30 @@
+Event	ID	Name			Wwise Object Path	Notes
+	281571150	A6Win			\A6\A6Win	
+	403817751	A6Lose			\A6\A6Lose	
+	1372143466	A6VaccineObtain			\A6\A6VaccineObtain	
+	2246559320	A6Start			\A6\A6Start	
+	2613500480	P1Button			\A6\P1Button	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	1332111125	A6_P1_Button_Progress			\A6\A6_P1_Button_Progress	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	2171178	A6_Vaccine_Obtain_10_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_10_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_10_Stereo_OneShot_v1		354560
+	45990542	A6_Vaccine_Obtain_04_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_04_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_04_Stereo_OneShot_v1		354560
+	106379923	A6_P1Button_02_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_02_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_02_Stereo_OneShot_v2		384096
+	126115911	A6_Vaccine_Obtain_03_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_03_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_03_Stereo_OneShot_v1		354556
+	169164492	A6_P1Button_03_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_03_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_03_Stereo_OneShot_v2		384096
+	190122853	A6_Vaccine_Obtain_09_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_09_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_09_Stereo_OneShot_v1		354560
+	216427693	A6_P1Button_06_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_06_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_06_Stereo_OneShot_v2		384096
+	275445553	A6_Vaccine_Obtain_02_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_02_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_02_Stereo_OneShot_v1		354560
+	287548996	A6_Vaccine_Obtain_07_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_07_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_07_Stereo_OneShot_v1		354560
+	517854512	A6_P1Button_05_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_05_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_05_Stereo_OneShot_v2		384096
+	622538682	A6_Vaccine_Obtain_06_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_06_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_06_Stereo_OneShot_v1		354560
+	629368154	A6_P1Button_08_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_08_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_08_Stereo_OneShot_v2		384096
+	646369119	A6_P1Button_07_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_07_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_07_Stereo_OneShot_v2		384096
+	683836871	A6_P1Button_01_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_01_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_01_Stereo_OneShot_v2		384096
+	706473155	A6_Vaccine_Obtain_05_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_05_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_05_Stereo_OneShot_v1		354560
+	809007770	A6_P1Button_04_Stereo_OneShot_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_P1Button_04_Stereo_OneShot_v2_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_P1Button\A6_P1Button_04_Stereo_OneShot_v2		384096
+	949846784	A6_Vaccine_Obtain_08_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_08_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_08_Stereo_OneShot_v1		354560
+	993962069	A6_Vaccine_Obtain_01_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Mac\SFX\A6_Vaccine_Obtain_01_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\A6\SFX\A6_Vaccine_Obtain\A6_Vaccine_Obtain_01_Stereo_OneShot_v1		354560
+

@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	47937584	PlayerVoice			\Voice Chate Unit\PlayerVoice	
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	312390273	Audio Input	Wwise Audio Input		\Actor-Mixer Hierarchy\Voice Chat\Voice Reciever\Audio Input	
+

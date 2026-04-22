@@ -1,0 +1,4 @@
+repository "4thProject/4thProject@2457483@cloud"
+  path "/"
+    smartbranch "/develop" 
+     

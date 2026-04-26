@@ -10,6 +10,7 @@ TagManager:
   - WH_Ground
   - WH_Obstacle
   - JW_FLAPPY_MID
+  - WH_Dino_Boost
   layers:
   - Default
   - TransparentFX

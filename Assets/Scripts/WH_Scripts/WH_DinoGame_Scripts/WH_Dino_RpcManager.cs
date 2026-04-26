@@ -122,7 +122,26 @@ public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
         if (gameEnded) return;
         gameEnded = true;
 
-        if (isSuccess)
+        if (!isSuccess)
+        {
+            Debug.Log("<color=red>Dino Game Failure!</color>");
+
+            // 🔥 추가: 게임 실패 시(충돌 시) 모든 공룡의 움직임을 멈추고 
+            // 아직 이미지가 안 바뀐 공룡이 있다면 데미지 상태로 강제 동기화
+            WH_Dino_Controller_Multi[] allDinos = FindObjectsOfType<WH_Dino_Controller_Multi>();
+            foreach (var dino in allDinos)
+            {
+                dino.StopDino(); // 움직임 정지
+                                 // 부딪힌 공룡은 이미 이미지가 바뀌었겠지만, 확실히 하기 위해 호출
+                if (dino.isMoving == false)
+                {
+                    dino.GetComponent<PhotonView>().RPC("RPC_ChangeToDamageSprite", RpcTarget.AllBuffered);
+                }
+            }
+
+            if (gameManager != null) gameManager.OnFailure();
+        }
+        else if (isSuccess)
         {
             Debug.Log("<color=green>Dino Game Success!</color>");
 

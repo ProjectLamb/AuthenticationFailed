@@ -38,6 +38,19 @@ public class WH_CipherManager : MonoBehaviourPun
     private float currentTime;
     private bool isP1;
 
+    [Header("Intro UI")]
+    public GameObject closeAlertUI;
+    public GameObject howToPlayUI;
+
+
+    private bool p1Ready = false;
+    private bool p2Ready = false;
+    private bool gameStarted = false;
+
+    [Header("User Count UI")]
+    public TMP_Text userCountText;
+
+    public GameObject GameCanvas;
     // ----------------------------------------------------------------
     // 1. 초기화 및 뷰 설정
     // ----------------------------------------------------------------
@@ -46,13 +59,66 @@ public class WH_CipherManager : MonoBehaviourPun
     {
         SetupView();
 
-        if (PhotonNetwork.IsMasterClient || (!PhotonNetwork.IsConnected && forceP1))
+        if (closeAlertUI != null) closeAlertUI.SetActive(true);
+        if (howToPlayUI != null) howToPlayUI.SetActive(false);
+
+        UpdateUserCount();
+    }
+
+    void UpdateUserCount()
+    {
+        if (userCountText == null) return;
+
+        int current = PhotonNetwork.CurrentRoom != null
+            ? PhotonNetwork.CurrentRoom.PlayerCount
+            : 1;
+
+        userCountText.text = $"{current} / 2";
+    }
+
+    public void OnClickOpenHowToPlay()
+    {
+        if (closeAlertUI != null) closeAlertUI.SetActive(false);
+        if (howToPlayUI != null) howToPlayUI.SetActive(true);
+    }
+    
+   
+    public void OnClickHowToPlayReady()
+    {
+        photonView.RPC(nameof(RPC_SetReady), RpcTarget.MasterClient);
+    }
+
+    [PunRPC]
+    void RPC_SetReady(PhotonMessageInfo info)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        if (info.Sender.IsMasterClient)
+            p1Ready = true;
+        else
+            p2Ready = true;
+
+        Debug.Log($"Ready 상태 → P1:{p1Ready}, P2:{p2Ready}");
+
+        if (p1Ready && p2Ready && !gameStarted)
         {
-            // 최초 시작 시에는 true를 전달하여 80초(timeLimit)를 세팅합니다.
-            InitGameLogic(true);
+            gameStarted = true;
+
+            photonView.RPC(nameof(RPC_StartGame), RpcTarget.All);
         }
     }
 
+    [PunRPC]
+    void RPC_StartGame()
+    {
+        // 설명 UI 닫기
+        if (howToPlayUI != null) howToPlayUI.SetActive(false);
+
+        // 기존 게임 시작 로직 그대로 사용
+
+        InitGameLogic(true);
+        GameCanvas.SetActive(true);
+    }
     void SetupView()
     {
         isP1 = PhotonNetwork.IsConnected ? PhotonNetwork.IsMasterClient : forceP1;

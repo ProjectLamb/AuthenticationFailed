@@ -1,37 +1,184 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class WH_Dino_RpcManager : MonoBehaviourPun
+[RequireComponent(typeof(PhotonView))]
+public class WH_Dino_RpcManager : MonoBehaviourPunCallbacks
 {
     public WH_Dino_Manager gameManager;
-    private int stopCount = 0;
 
-    // ¼º°ø º¸°í (´©±º°¡ ºÎµúÈ÷¸é ÀüÃ¼ Å¬¶óÀÌ¾ğÆ®¿¡ ¼º°ø ¾Ë¸²)
-    public void ReportGoal()
+    private int stopCount = 0;
+    private bool gameEnded = false;
+    private bool gameStarted = false;
+
+    private readonly HashSet<int> readyPlayers = new HashSet<int>();
+
+    public void OnClickReadyButton()
     {
-        photonView.RPC("RPC_SyncEndGame", RpcTarget.All, true);
+        if (!PhotonNetwork.IsConnected)
+            return;
+
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        Debug.Log($"[Dino] ì¤€ë¹„ ë²„íŠ¼ í´ë¦­ / ActorNumber={actorNumber}");
+
+        photonView.RPC(nameof(RPC_RegisterReady), RpcTarget.MasterClient, actorNumber);
     }
 
-    // Àå¾Ö¹° Ãæµ¹ º¸°í (¹æÀå¸¸ Ä«¿îÆ® Ã¼Å©)
+    [PunRPC]
+    void RPC_RegisterReady(int actorNumber)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        if (gameStarted)
+            return;
+
+        readyPlayers.Add(actorNumber);
+
+        int current = readyPlayers.Count;
+        int total = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 2;
+
+        Debug.Log($"[Dino] ì¤€ë¹„ ì¸ì›: {current}/{total}");
+
+        photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, current, total);
+
+        if (current >= total && total >= 2)
+        {
+            photonView.RPC(nameof(RPC_StartDinoGame), RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void RPC_UpdateReadyCount(int current, int total)
+    {
+        if (gameManager != null)
+        {
+            gameManager.UpdateReadyCountUI(current, total);
+        }
+        else
+        {
+            Debug.LogError("[Dino] gameManagerê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+        }
+    }
+
+    [PunRPC]
+    void RPC_StartDinoGame()
+    {
+        if (gameStarted) return;
+
+        if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        {
+            Debug.LogWarning("[Dino] í”Œë ˆì´ì–´ ìˆ˜ê°€ ë¶€ì¡±í•´ì„œ ì‹œì‘ ì·¨ì†Œ");
+            return;
+        }
+
+        gameStarted = true;
+        gameEnded = false;
+        stopCount = 0;
+
+        if (gameManager != null)
+        {
+            gameManager.StartGameByNetwork();
+        }
+        else
+        {
+            Debug.LogError("[Dino] gameManagerê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+        }
+    }
+
+    public void ReportGoal()
+    {
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, true);
+    }
+
     public void ReportStop()
     {
-        photonView.RPC("RPC_HandleStopCount", RpcTarget.MasterClient);
+        if (gameEnded) return;
+
+        photonView.RPC(nameof(RPC_HandleStopCount), RpcTarget.MasterClient);
     }
 
     [PunRPC]
     void RPC_HandleStopCount()
     {
+        if (gameEnded) return;
+
         stopCount++;
+        Debug.Log($"[Dino] stopCount = {stopCount}");
+
+        // ë‘˜ ë‹¤ ë¶€ë”ªí˜”ì„ ë•Œë§Œ ì‹¤íŒ¨
         if (stopCount >= 2)
         {
-            photonView.RPC("RPC_SyncEndGame", RpcTarget.All, false);
+            photonView.RPC(nameof(RPC_SyncEndGame), RpcTarget.All, false);
         }
     }
 
     [PunRPC]
     void RPC_SyncEndGame(bool isSuccess)
     {
-        if (isSuccess) gameManager.OnSuccess();
-        else gameManager.OnFailure();
+        if (gameEnded) return;
+        gameEnded = true;
+
+        if (isSuccess)
+        {
+            Debug.Log("<color=green>Dino Game Success!</color>");
+
+            if (gameManager != null)
+                gameManager.OnSuccess();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                WH_RegisterManager[] regManagers =
+                    Object.FindObjectsByType<WH_RegisterManager>(FindObjectsSortMode.None);
+
+                if (regManagers != null && regManagers.Length > 0)
+                {
+                    WH_RegisterManager targetManager = null;
+
+                    foreach (var reg in regManagers)
+                    {
+                        if (reg != null && reg.isDesktop)
+                        {
+                            targetManager = reg;
+                            break;
+                        }
+                    }
+
+                    if (targetManager == null)
+                        targetManager = regManagers[0];
+
+                    targetManager.OnMiniGameClear();
+                    Debug.Log("<color=cyan>ì¸ì¦ ë‹¨ê³„ ì‹œì‘ RPC ì „ì†¡ ì™„ë£Œ</color>");
+                }
+                else
+                {
+                    Debug.LogError("ì”¬ì—ì„œ WH_RegisterManagerë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("<color=red>Dino Game Failure!</color>");
+
+            if (gameManager != null)
+                gameManager.OnFailure();
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        if (readyPlayers.Contains(otherPlayer.ActorNumber))
+        {
+            readyPlayers.Remove(otherPlayer.ActorNumber);
+
+            int total = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 2;
+            photonView.RPC(nameof(RPC_UpdateReadyCount), RpcTarget.All, readyPlayers.Count, total);
+        }
     }
 }

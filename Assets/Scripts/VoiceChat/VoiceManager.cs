@@ -16,7 +16,7 @@ public class VoiceManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinOrCreateRoom("TestVoiceRoom", new RoomOptions { MaxPlayers = 2 }, TypedLobby.Default);
+        //PhotonNetwork.JoinOrCreateRoom("TestVoiceRoom", new RoomOptions { MaxPlayers = 2 }, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()

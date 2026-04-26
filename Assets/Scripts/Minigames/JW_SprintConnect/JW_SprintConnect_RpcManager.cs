@@ -6,6 +6,7 @@ using TMPro;
 
 public class JW_SprintConnect_RpcManager : MonoBehaviourPun
 {
+    [Header("게임 관련 UI")]
     public Slider sprintSlider;
     public Button sprintBtnP1;
     public Button sprintBtnP2;
@@ -21,27 +22,24 @@ public class JW_SprintConnect_RpcManager : MonoBehaviourPun
     public bool IsClear = false;
     private int limitTime = 30;
 
+    [Header("알림창,경고")]
+    public Canvas canvasHtp;
+    public GameObject alert;
+    public GameObject htp;
+
+    [Header("준비여부")]
+    private bool IsDesktopOK = false;
+    private bool IsMoblieOK = false;
+    private bool IsAllOK = false;
+    [Header("준비여부")]
+    private bool IsDesktopReady = false;
+    private bool IsMoblieReady = false;
+    private bool IsAllReady = false;
+
     void Awake()
     {
         canvasGame.worldCamera = Camera.main;
     }
-
-    void Start()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(TimeLimit());
-        }
-
-        // 로컬 플레이어에 따라 버튼 감추기보다는 '상호작용 가능 여부'로 제어하는 것이 안전합니다.
-        // 만약 버튼 객체 자체가 할당되지 않았다면 에러가 나므로, 인스펙터에 두 버튼 모두 연결되어 있어야 합니다.
-        sprintBtnP1.gameObject.SetActive(PhotonNetwork.LocalPlayer.ActorNumber == 1);
-        sprintBtnP2.gameObject.SetActive(PhotonNetwork.LocalPlayer.ActorNumber == 2);
-
-        // 초기 UI 상태 설정 (RPC를 통해 동기화된 상태로 시작)
-        UpdateUI();
-    }
-
     void Update()
     {
         // 슬라이더 체크는 마스터만 하고 결과를 RPC로 쏘거나, 
@@ -128,12 +126,16 @@ public class JW_SprintConnect_RpcManager : MonoBehaviourPun
     void RpcOpenSuccessAlert()
     {
         IsClear = true;
+        GameManager.Instance.ClearMiniGame();
+        GameManager.Instance.stageNumber += 1;
+        RegisterManager.Instance.IsClear = true;
         successAlert.SetActive(true);
     }
 
     [PunRPC]
     public void RpcOpenFailAlert()
     {
+        GameManager.Instance.stageNumber = 0;
         failAlert.SetActive(true);
     }
 
@@ -164,5 +166,91 @@ public class JW_SprintConnect_RpcManager : MonoBehaviourPun
             limitTime--;
             photonView.RPC("RpcSyncTimer", RpcTarget.AllBuffered, limitTime);
         }
+    }
+    public void OK()
+    {
+        photonView.RPC("RpcSetOK", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+
+    [PunRPC]
+    void RpcSetOK(int actorNumber)
+    {
+        if (actorNumber == 1) IsDesktopOK = true;
+        else if (actorNumber == 2) IsMoblieOK = true;
+
+        Debug.Log($"Player {actorNumber} OK!");
+
+        // 마스터 클라이언트만 시작 조건을 체크하는 것이 안전합니다.
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CheckOK();
+        }
+    }
+    void CheckOK()
+    {
+        if (IsDesktopOK && IsMoblieOK && !IsAllOK)
+        {
+            IsAllOK = true;
+            photonView.RPC("RpcHtp", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void RpcHtp()
+    {
+        alert.SetActive(false);
+        htp.SetActive(true);
+    }
+
+    // 버튼을 눌렀을 때 호출되는 함수
+    public void Ready()
+    {
+        // 내 ActorNumber에 따라 상대방에게도 내 상태를 알립니다.
+        // RpcTarget.All로 보내야 나를 포함한 모든 사람의 IsReady 변수가 갱신됩니다.
+        photonView.RPC("RpcSetReady", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+    }
+
+    [PunRPC]
+    void RpcSetReady(int actorNumber)
+    {
+        if (actorNumber == 1) IsDesktopReady = true;
+        else if (actorNumber == 2) IsMoblieReady = true;
+
+        Debug.Log($"Player {actorNumber} Ready!");
+
+        // 마스터 클라이언트만 시작 조건을 체크하는 것이 안전합니다.
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CheckStartCondition();
+        }
+    }
+
+    void CheckStartCondition()
+    {
+        if (IsDesktopReady && IsMoblieReady && !IsAllReady)
+        {
+            IsAllReady = true;
+            photonView.RPC("RpcGameStart", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void RpcGameStart()
+    {
+        canvasHtp.enabled = false;
+        canvasGame.enabled = true;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(TimeLimit());
+        }
+
+        // 로컬 플레이어에 따라 버튼 감추기보다는 '상호작용 가능 여부'로 제어하는 것이 안전합니다.
+        // 만약 버튼 객체 자체가 할당되지 않았다면 에러가 나므로, 인스펙터에 두 버튼 모두 연결되어 있어야 합니다.
+        sprintBtnP1.gameObject.SetActive(PhotonNetwork.LocalPlayer.ActorNumber == 1);
+        sprintBtnP2.gameObject.SetActive(PhotonNetwork.LocalPlayer.ActorNumber == 2);
+
+        // 초기 UI 상태 설정 (RPC를 통해 동기화된 상태로 시작)
+        UpdateUI();
     }
 }

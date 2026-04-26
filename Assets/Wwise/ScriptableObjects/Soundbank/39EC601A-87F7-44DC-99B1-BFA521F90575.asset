@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c848b6b37ea7469196eac37245443cc, type: 3}
   m_Name: 39EC601A-87F7-44DC-99B1-BFA521F90575
   m_EditorClassIdentifier: 
-  objectName: Test
-  id: 3157003241
+  objectName: VoiceChat
+  id: 3714668367
   guid: 39EC601A-87F7-44DC-99B1-BFA521F90575

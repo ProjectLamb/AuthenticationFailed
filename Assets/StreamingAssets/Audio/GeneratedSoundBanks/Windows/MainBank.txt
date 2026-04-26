@@ -1,0 +1,36 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1230509338	P1UiClick			\MAIN\P1UiClick	
+	1991862712	MainMenuMusic			\MAIN\MainMenuMusic	
+	2258743767	P2UiClick			\MAIN\P2UiClick	
+	2275179450	GamePlayMusic			\MAIN\GamePlayMusic	
+	2865704433	MuaicCue			\MAIN\MuaicCue	
+
+State Group	ID	Name			Wwise Object Path	Notes
+	777429653	GameStates			\MAIN\GameStates	
+
+State	ID	Name	State Group			Notes
+	89505537	GamePlay	GameStates			
+	748895195	None	GameStates			
+	1886858604	A6	GameStates			
+	3604647259	MainMenu	GameStates			
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2647547107	GameWinorLose			\Default Work Unit\GameWinorLose	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	17639544	Main_Theme_Body_Draft_01	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\Main_Theme_Body_Draft_01_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Switch\MainMenu\Main_Theme_Body_Draft_01\Main_Theme_Body_Draft_01		33955300
+	72102868	A6_Game_Play_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\A6_Game_Play_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Switch\A6\A6_Game_Play_v1\A6_Game_Play_v1		6114556
+	223882852	MainMenu_UiClick_04_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClick_04_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P1UiClick\MainMenu_UiClick_04_Stereo_OneShot_v1		96096
+	244312807	MainMenu_UiClick_01_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClick_01_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P1UiClick\MainMenu_UiClick_01_Stereo_OneShot_v1		96096
+	283107029	Main_Theme_Intro_Draft_01	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\Main_Theme_Intro_Draft_01_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Switch\MainMenu\Main_Theme_Intro_Draft_01\Main_Theme_Intro_Draft_01		5529700
+	289316840	GamePlay_Variation_v2	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\GamePlay_Variation_v2_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Switch\Chapter1_Gameplay\GamePlay_Variation_v2\GamePlay_Variation_v2		3888100
+	367471324	MainToGame_Transition_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainToGame_Transition_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Transitions\MainToGame_Transition_v1\MainToGame_Transition_v1		192096
+	502790161	MainMenu_UiClick_03_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClick_03_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P1UiClick\MainMenu_UiClick_03_Stereo_OneShot_v1		96096
+	659459801	MainMenu_UiClick_05_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClick_05_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P1UiClick\MainMenu_UiClick_05_Stereo_OneShot_v1		96096
+	692304433	A6_Game_Play_Winning	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\A6_Game_Play_Winning_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Transitions\A6_Game_Transition to go back\A6_Game_Play_Winning		731172
+	767553383	A6_Game_Play_Losing	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\A6_Game_Play_Losing_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Transitions\A6_Game_Transition to go back\A6_Game_Play_Losing		1063484
+	810836783	MainMenu_UiClickP2_01_Stereo_OneShot_v3_Fixed	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClickP2_01_Stereo_OneShot_v3_Fixed_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P2UiClick\MainMenu_UiClickP2_01_Stereo_OneShot_v3_Fixed		96096
+	977635800	A6_Game_Play_Transition	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\A6_Game_Play_Transition_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Transitions\A6_Game_Play_Transition\A6_Game_Play_Transition		797636
+	1011473247	MainMenu_UiClick_02_Stereo_OneShot_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\MainMenu_UiClick_02_Stereo_OneShot_v1_818F3B66.wem		\Actor-Mixer Hierarchy\MAIN\P1UiClick\MainMenu_UiClick_02_Stereo_OneShot_v1		96096
+	1056328879	GamePlay_Demo_v1	Y:\Documents\ProjectLamb\AuthenticationFailed\Unity\AuthenticationFailed\AuthenticationFailed_WwiseProject\.cache\Windows\SFX\GamePlay_Demo_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Main Unit\Switch\Chapter1_Gameplay\GamePlay_Demo_v1\GamePlay_Demo_v1		3801700
+

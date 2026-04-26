@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: d31974a022525340a2459008ebc78d39
     GuidInternal: 
-    m_lastTime: -8584294070704775808
+    m_lastTime: -8584250398162092305
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -66,11 +66,11 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 47c34ec827900b489413f9684e06fd3e
     GuidInternal: 
-    m_lastTime: -8584276397574775808
+    m_lastTime: -8584250398161602252
     List:
-    - name: Test
-      guid: 1a60ec39f787dc4499b1bfa521f90575
-      id: 3157003241
+    - name: A6
+      guid: b2e6bd8b0f43c744843fb499c0ab1559
+      id: 1886858604
       PathAndIcons:
       - ElementName: SoundBanks
         ObjectType: 5
@@ -78,10 +78,38 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 47c34ec827900b489413f9684e06fd3e
-      - ElementName: Test
+      - ElementName: A6
+        ObjectType: 7
+        guid: b2e6bd8b0f43c744843fb499c0ab1559
+      Path: SoundBanks\Default Work Unit\A6
+    - name: MainBank
+      guid: 3756fa7489ad8e42b9a3e5010e9e224c
+      id: 2880737896
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 47c34ec827900b489413f9684e06fd3e
+      - ElementName: MainBank
+        ObjectType: 7
+        guid: 3756fa7489ad8e42b9a3e5010e9e224c
+      Path: SoundBanks\Default Work Unit\MainBank
+    - name: VoiceChat
+      guid: 1a60ec39f787dc4499b1bfa521f90575
+      id: 3714668367
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 47c34ec827900b489413f9684e06fd3e
+      - ElementName: VoiceChat
         ObjectType: 7
         guid: 1a60ec39f787dc4499b1bfa521f90575
-      Path: SoundBanks\Default Work Unit\Test
+      Path: SoundBanks\Default Work Unit\VoiceChat
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
@@ -94,72 +122,8 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 32d741fa6ae83a42aa3f8e806f706175
     GuidInternal: 
-    m_lastTime: -8584277667514775808
-    List:
-    - name: test
-      guid: 82b28994a3ef584da926d93fa0926311
-      id: 3157003241
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 32d741fa6ae83a42aa3f8e806f706175
-      - ElementName: test
-        ObjectType: 3
-        guid: 82b28994a3ef584da926d93fa0926311
-      Path: Events\Default Work Unit\test
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: test2
-      guid: f626129177f7df4fb88e0098ab94e45e
-      id: 576110585
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 32d741fa6ae83a42aa3f8e806f706175
-      - ElementName: test2
-        ObjectType: 3
-        guid: f626129177f7df4fb88e0098ab94e45e
-      Path: Events\Default Work Unit\test2
-      maxAttenuation: 0
-      maxDuration: 55.05002
-      minDuration: 55.05002
-  - PhysicalPath: Events\Voice Chate Unit.wwu
-    PathAndIcons:
-    - ElementName: Events
-      ObjectType: 5
-      guid: 00000000000000000000000000000000
-    - ElementName: Voice Chate Unit
-      ObjectType: 12
-      guid: 55b6709029cd3b488877c761e5fbd09a
-    ParentPath: Events\Voice Chate Unit
-    guid: 55b6709029cd3b488877c761e5fbd09a
-    GuidInternal: 
-    m_lastTime: -8584276400104775808
-    List:
-    - name: PlayerVoice
-      guid: 297fcb7fa4fded4289cdc6ab0361cc73
-      id: 47937584
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Voice Chate Unit
-        ObjectType: 12
-        guid: 55b6709029cd3b488877c761e5fbd09a
-      - ElementName: PlayerVoice
-        ObjectType: 3
-        guid: 297fcb7fa4fded4289cdc6ab0361cc73
-      Path: Events\Voice Chate Unit\PlayerVoice
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+    m_lastTime: -8584250398161749638
+    List: []
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -172,8 +136,22 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 3c0a4ee411369145ab270d93d5cc5627
     GuidInternal: 
-    m_lastTime: -8584294070704775808
-    List: []
+    m_lastTime: -8584250398162814657
+    List:
+    - name: GameWinorLose
+      guid: b9e4e1d8f9a9614f91e6035875cc576d
+      id: 2647547107
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 3c0a4ee411369145ab270d93d5cc5627
+      - ElementName: GameWinorLose
+        ObjectType: 13
+        guid: b9e4e1d8f9a9614f91e6035875cc576d
+      Path: Game Parameters\Default Work Unit\GameWinorLose
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
@@ -186,7 +164,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 3ea2ae523fa4384993f0a3224223503f
     GuidInternal: 
-    m_lastTime: -8584294070704775808
+    m_lastTime: -8584250398162206137
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -200,7 +178,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 1eaec6ff74072743a18c38e5dd36cada
     GuidInternal: 
-    m_lastTime: -8584294070704775808
+    m_lastTime: -8584250398182538538
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -214,8 +192,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: e06f15d9dd8cde4297d80546b8dc51b7
     GuidInternal: 
-    m_lastTime: -8584294070704775808
+    m_lastTime: -8584250398182396933
     List: []
+  ExpandedFileSystemItemIds: 02000000030000000a0000000b0000001c0000001d000000
+  ExpandedWaapiItemIds: 0a0000000b0000001c0000001d000000
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 
   AutoSyncSelection: 0
